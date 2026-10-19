@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "البصائر | منصة التسجيلات الصوتية",
+  "short_name": "البصائر",
+  "description": "مساحة عربية للاستماع إلى تلاوات القرآن الكريم.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#080b12",
+  "icons": [
+    {
+      "src": "/icon.jpeg",
+      "sizes": "1254x1254",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

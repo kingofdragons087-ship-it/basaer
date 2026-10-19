@@ -1,38 +1,113 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f9ff">
-  <meta name="description" content="البصائر، منصة للاستماع إلى التسجيلات الصوتية للقرآن الكريم.">
-  <title>البصائر | منصة التسجيلات الصوتية</title>
+  <meta name="theme-color" content="#f4f8ff">
+  <meta name="description" content="البصائر، مساحة عربية للاستماع إلى تلاوات القرآن الكريم.">
+  <title>البصائر | أنصت بقلبك</title>
   <link rel="stylesheet" href="/style.css">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/jpeg" href="/icon.jpeg">
+  <link rel="apple-touch-icon" href="/icon.jpeg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="البصائر">
+  <script src="/theme.js" defer></script>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="البصائر - الرئيسية">
-      <span class="brand-mark">ب</span>
-      <span>البصائر</span>
+    <a class="brand" href="/" aria-label="البصائر الرئيسية">
+      <span class="brand-mark"><img src="/icon.jpeg" alt="شعار البصائر"></span>
+      <span class="brand-name">البصائر<small>مساحة للصوت والسكينة</small></span>
     </a>
-    <span class="status">نسخة التطوير الأولى</span>
+    <nav class="navigation">
+      <a href="#home">الرئيسية</a>
+      <a href="#library">المكتبة الصوتية</a>
+      <a href="#about">عن البصائر</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الليلي" title="تغيير المظهر">
+        <span id="themeIcon">☾</span>
+      </button>
+      <a class="header-button" href="#library">استكشف المكتبة ↙</a>
+    </div>
   </header>
 
-  <main class="hero">
-    <div class="eyebrow">منصة التسجيلات الصوتية</div>
-    <h1>أنصت بقلبك،<br><span>واكتشف البصائر.</span></h1>
-    <p>
-      مساحة عربية للاستماع إلى التسجيلات الصوتية،
-      واكتشاف القرّاء وتنظيم مكتبتك الصوتية.
-    </p>
-    <div class="player-placeholder">
-      <span class="play-symbol" aria-hidden="true">▶</span>
-      <div>
-        <strong>مرحبًا بك في البصائر</strong>
-        <p>ستظهر التسجيلات الصوتية هنا في الخطوات القادمة.</p>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="eyebrow"><span></span> تلاوات قرآنية • تجربة هادئة</div>
+        <h1>أنصت بقلبك،<br>واكتشف <span>البصائر.</span></h1>
+        <p class="hero-description">
+          مساحة عربية تجمعك بالتلاوات الصوتية في تجربة بسيطة وهادئة،
+          لتمنح وقت استماعك مزيدًا من الصفاء والسكينة.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#library">استكشف المكتبة <span>←</span></a>
+          <a class="text-button" href="#about">اكتشف فكرة البصائر</a>
+        </div>
+        <div class="hero-note">
+          <span class="note-icon">♫</span>
+          <span><strong>الصوت أولًا</strong><small>تجربة مصممة للاستماع دون تشتيت</small></span>
+        </div>
       </div>
-    </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-glow"></div>
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="art-card">
+          <div class="art-top"><span>البصائر</span><span>۞</span></div>
+          <div class="art-emblem">﷽</div>
+          <div class="art-lines"><i></i><i></i><i></i></div>
+          <div class="art-wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <div class="art-caption">لحظات من الهدوء والسكينة</div>
+        </div>
+        <span class="floating-dot dot-one"></span>
+        <span class="floating-dot dot-two"></span>
+      </div>
+    </section>
+
+    <section class="features" aria-label="مميزات البصائر">
+      <article class="feature">
+        <span class="feature-icon">♫</span>
+        <div><h3>الصوت أولًا</h3><p>مساحة مخصصة للاستماع إلى التلاوات.</p></div>
+      </article>
+      <article class="feature">
+        <span class="feature-icon">⌕</span>
+        <div><h3>اكتشاف أسهل</h3><p>مكتبة منظمة تساعدك على الوصول إلى القراء.</p></div>
+      </article>
+      <article class="feature">
+        <span class="feature-icon">✧</span>
+        <div><h3>بساطة وهدوء</h3><p>واجهة عربية واضحة على الهاتف والحاسوب.</p></div>
+      </article>
+    </section>
+
+    <section class="library-section" id="library">
+      <div class="section-heading">
+        <div><span class="section-kicker">مساحتك الصوتية</span><h2>المكتبة الصوتية</h2></div>
+        <span class="coming-badge"><span></span> قيد التجهيز</span>
+      </div>
+      <div class="library-empty">
+        <div class="empty-icon">♫</div>
+        <h3>هنا تبدأ رحلتك مع التلاوات</h3>
+        <p>نعمل على تجهيز المكتبة وإضافة القراء والتسجيلات الصوتية.</p>
+        <span class="empty-footnote">لن نعرض تسجيلات وهمية؛ ستظهر المحتويات عند إضافتها فعليًا.</span>
+      </div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="about-symbol"><img src="/icon.jpeg" alt="شعار البصائر"></div>
+      <div><span class="section-kicker">عن المنصة</span><h2>صُممت لتستمع براحة.</h2>
+      <p>البصائر مشروع عربي مستقل، هدفه تقديم تجربة استماع سهلة وهادئة لتسجيلات القرآن الكريم، مع تنظيم القراء والتلاوات في مكان واحد.</p></div>
+    </section>
   </main>
 
-  <footer>البصائر — مشروع مستقل قيد التطوير</footer>
+  <footer class="footer">
+    <a class="brand footer-brand" href="/"><span class="brand-mark"><img src="/icon.jpeg" alt="شعار البصائر"></span><span class="brand-name">البصائر<small>مساحة للصوت والسكينة</small></span></a>
+    <span>نسأل الله أن يجعل هذا العمل نافعًا.</span>
+    <span>© البصائر</span>
+  </footer>
+
 </body>
 </html>
