@@ -85,15 +85,51 @@
 
     <section class="library-section" id="library">
       <div class="section-heading">
-        <div><span class="section-kicker">مساحتك الصوتية</span><h2>المكتبة الصوتية</h2></div>
-        <span class="coming-badge"><span></span> قيد التجهيز</span>
+        <div>
+          <span class="section-kicker">مساحتك الصوتية</span>
+          <h2>المكتبة الصوتية</h2>
+        </div>
+        <span class="coming-badge">
+          <span></span>
+          <%= reciters && reciters.length ? "اكتشف القراء" : "قيد التجهيز" %>
+        </span>
       </div>
-      <div class="library-empty">
-        <div class="empty-icon">♫</div>
-        <h3>هنا تبدأ رحلتك مع التلاوات</h3>
-        <p>نعمل على تجهيز المكتبة وإضافة القراء والتسجيلات الصوتية.</p>
-        <span class="empty-footnote">لن نعرض تسجيلات وهمية؛ ستظهر المحتويات عند إضافتها فعليًا.</span>
-      </div>
+
+      <% if (reciters && reciters.length) { %>
+        <div class="reciters-grid">
+          <% reciters.forEach((reciter) => { %>
+            <a class="reciter-card" href="/reciters/<%= encodeURIComponent(reciter.slug) %>">
+              <div class="reciter-card-image">
+                <% if (reciter.image_url) { %>
+                  <img
+                    src="<%= reciter.image_url %>"
+                    alt="صورة القارئ <%= reciter.name %>"
+                    loading="lazy"
+                  >
+                <% } else { %>
+                  <span class="reciter-image-placeholder" aria-hidden="true">♫</span>
+                <% } %>
+              </div>
+              <div class="reciter-card-content">
+                <h3><%= reciter.name %></h3>
+                <p>
+                  <%= reciter.recordings_count %> تلاوة
+                  <span aria-hidden="true">·</span>
+                  <%= reciter.videos_count %> فيديو
+                </p>
+                <span class="reciter-card-link">استكشف التلاوات <span aria-hidden="true">←</span></span>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="library-empty">
+          <div class="empty-icon">♫</div>
+          <h3>هنا تبدأ رحلتك مع التلاوات</h3>
+          <p>نعمل على تجهيز المكتبة وإضافة القراء والتسجيلات الصوتية.</p>
+          <span class="empty-footnote">لن نعرض تسجيلات وهمية؛ ستظهر المحتويات عند إضافتها فعليًا.</span>
+        </div>
+      <% } %>
     </section>
 
     <section class="about-section" id="about">

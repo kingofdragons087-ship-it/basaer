@@ -336,3 +336,450 @@ html[data-theme="dark"] .footer {
   object-fit: cover;
   border-radius: inherit;
 }
+
+/* BASAER RECITER CARDS */
+.reciters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.reciter-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e4ecf8;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 25px rgba(39, 83, 140, 0.045);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.reciter-card:hover {
+  transform: translateY(-4px);
+  border-color: #c7dcfa;
+  box-shadow: 0 14px 32px rgba(39, 83, 140, 0.11);
+}
+
+.reciter-card-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: linear-gradient(145deg, #edf4ff, #f9fbff);
+}
+
+.reciter-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reciter-image-placeholder {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  border: 1px solid #dce8fb;
+  border-radius: 22px;
+  background: #fff;
+  color: #3476c9;
+  font-size: 30px;
+}
+
+.reciter-card-content {
+  padding: 17px 15px 16px;
+}
+
+.reciter-card-content h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #203653;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.reciter-card-content p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 7px 0 15px;
+  color: #8190a5;
+  font-size: 11px;
+}
+
+.reciter-card-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #edf1f8;
+  color: #3476c9;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .reciter-card {
+  border-color: #293448;
+  background: #111824;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .12);
+}
+
+html[data-theme="dark"] .reciter-card:hover {
+  border-color: #425a7b;
+}
+
+html[data-theme="dark"] .reciter-card-content h3 {
+  color: #edf2ff;
+}
+
+html[data-theme="dark"] .reciter-card-content p {
+  color: #a0aec3;
+}
+
+html[data-theme="dark"] .reciter-card-link {
+  border-color: #293448;
+  color: #a8caff;
+}
+
+html[data-theme="dark"] .reciter-card-image {
+  background: linear-gradient(145deg, #182438, #101722);
+}
+
+html[data-theme="dark"] .reciter-image-placeholder {
+  border-color: #34445d;
+  background: #1b2637;
+  color: #a8caff;
+}
+
+@media (max-width: 1000px) {
+  .reciters-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 680px) {
+  .reciters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .reciter-card {
+    border-radius: 16px;
+  }
+
+  .reciter-card-content {
+    padding: 13px 11px;
+  }
+
+  .reciter-card-content h3 {
+    font-size: 13px;
+  }
+
+  .reciter-card-content p,
+  .reciter-card-link {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .reciters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* BASAER RECITER DETAIL PAGE */
+.reciter-page {
+  width: min(1100px, 88%);
+  margin: 36px auto 75px;
+}
+
+.reciter-profile {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  padding: 27px;
+  border: 1px solid #e4ecf8;
+  border-radius: 25px;
+  background: linear-gradient(120deg, #fff, #f3f7ff);
+}
+
+.reciter-profile-image {
+  display: grid;
+  place-items: center;
+  width: 155px;
+  height: 155px;
+  flex: 0 0 155px;
+  overflow: hidden;
+  border: 4px solid #fff;
+  border-radius: 24px;
+  background: #eaf2ff;
+  box-shadow: 0 8px 25px rgba(39, 83, 140, .10);
+  color: #3476c9;
+  font-size: 42px;
+}
+
+.reciter-profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reciter-profile-info {
+  min-width: 0;
+}
+
+.reciter-profile-info h1 {
+  margin: 9px 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(25px, 4vw, 36px);
+}
+
+.reciter-profile-info > p {
+  margin: 0;
+  color: #75849a;
+  font-size: 13px;
+  line-height: 2;
+  white-space: pre-line;
+}
+
+.reciter-profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 17px;
+}
+
+.reciter-profile-stats span {
+  padding: 8px 12px;
+  border: 1px solid #e1eafa;
+  border-radius: 12px;
+  background: #fff;
+  color: #72839b;
+  font-size: 11px;
+}
+
+.reciter-profile-stats strong {
+  color: #3476c9;
+}
+
+.reciter-content-section {
+  margin-top: 48px;
+}
+
+.recordings-list {
+  display: grid;
+  gap: 14px;
+}
+
+.recording-card {
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid #e4ecf8;
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: 0 7px 24px rgba(39, 83, 140, .04);
+}
+
+.recording-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.recording-number {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  border-radius: 14px;
+  background: #edf4ff;
+  color: #3476c9;
+  font-weight: 800;
+}
+
+.recording-title {
+  min-width: 0;
+  flex: 1;
+}
+
+.recording-title h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+}
+
+.recording-title > span,
+.recording-duration {
+  color: #8592a5;
+  font-size: 11px;
+}
+
+.recording-duration {
+  direction: ltr;
+  font-variant-numeric: tabular-nums;
+}
+
+.recording-card audio {
+  display: block;
+  width: 100%;
+  height: 44px;
+}
+
+.recording-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  padding: 9px 13px;
+  border: 1px solid #dce8fb;
+  border-radius: 11px;
+  color: #3476c9;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.recording-download:hover {
+  background: #edf4ff;
+}
+
+.reciter-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.reciter-video-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e4ecf8;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.reciter-video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #101722;
+}
+
+.reciter-video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.reciter-video-card h3 {
+  margin: 0;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+html[data-theme="dark"] .reciter-profile,
+html[data-theme="dark"] .recording-card,
+html[data-theme="dark"] .reciter-video-card {
+  border-color: #293448;
+  background: #111824;
+}
+
+html[data-theme="dark"] .reciter-profile {
+  background: linear-gradient(120deg, #111824, #151f30);
+}
+
+html[data-theme="dark"] .reciter-profile-info h1,
+html[data-theme="dark"] .recording-title h3,
+html[data-theme="dark"] .reciter-video-card h3 {
+  color: #edf2ff;
+}
+
+html[data-theme="dark"] .reciter-profile-info > p,
+html[data-theme="dark"] .recording-title > span,
+html[data-theme="dark"] .recording-duration {
+  color: #a0aec3;
+}
+
+html[data-theme="dark"] .reciter-profile-image {
+  border-color: #293448;
+  background: #1b2637;
+}
+
+html[data-theme="dark"] .reciter-profile-stats span {
+  border-color: #293448;
+  background: #182233;
+  color: #b0bfd5;
+}
+
+html[data-theme="dark"] .recording-number {
+  background: #1b2637;
+  color: #a8caff;
+}
+
+html[data-theme="dark"] .recording-download {
+  border-color: #34445d;
+  color: #a8caff;
+}
+
+html[data-theme="dark"] .recording-download:hover {
+  background: #1b2637;
+}
+
+@media (max-width: 680px) {
+  .reciter-page {
+    margin-top: 20px;
+  }
+
+  .reciter-profile {
+    align-items: flex-start;
+    gap: 15px;
+    padding: 17px;
+    border-radius: 19px;
+  }
+
+  .reciter-profile-image {
+    width: 100px;
+    height: 100px;
+    flex-basis: 100px;
+    border-radius: 18px;
+  }
+
+  .reciter-profile-info h1 {
+    font-size: 22px;
+  }
+
+  .reciter-profile-info > p {
+    font-size: 11px;
+  }
+
+  .reciter-content-section {
+    margin-top: 35px;
+  }
+
+  .recording-card {
+    padding: 14px;
+  }
+
+  .reciter-videos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 390px) {
+  .reciter-profile {
+    flex-direction: column;
+  }
+
+  .reciter-profile-image {
+    width: 110px;
+    height: 110px;
+    flex-basis: 110px;
+  }
+}

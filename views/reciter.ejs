@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f9ff">
+  <meta name="application-name" content="البصائر">
+  <title><%= reciter.name %> | البصائر</title>
+  <link rel="icon" href="/icon.jpeg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/theme.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="البصائر الرئيسية">
+      <span class="brand-mark"><img src="/icon.jpeg" alt="شعار البصائر"></span>
+      <span class="brand-name">البصائر<small>مساحة للصوت والسكينة</small></span>
+    </a>
+    <nav class="navigation">
+      <a href="/">الرئيسية</a>
+      <a href="#recordings">التلاوات</a>
+      <% if (videos.length) { %><a href="#videos">الفيديوهات</a><% } %>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" type="button"
+        aria-label="تغيير المظهر" title="تغيير المظهر">
+        <span id="themeIcon">☾</span>
+      </button>
+      <a class="header-button" href="/">العودة للرئيسية ↙</a>
+    </div>
+  </header>
+
+  <main class="reciter-page">
+    <section class="reciter-profile">
+      <div class="reciter-profile-image">
+        <% if (reciter.image_url) { %>
+          <img src="<%= reciter.image_url %>"
+            alt="صورة القارئ <%= reciter.name %>">
+        <% } else { %>
+          <span aria-hidden="true">♫</span>
+        <% } %>
+      </div>
+      <div class="reciter-profile-info">
+        <span class="section-kicker">من مكتبة البصائر</span>
+        <h1><%= reciter.name %></h1>
+        <% if (reciter.biography) { %>
+          <p><%= reciter.biography %></p>
+        <% } else { %>
+          <p>استمع إلى التلاوات الصوتية واختر ما تحب الاستماع إليه.</p>
+        <% } %>
+        <div class="reciter-profile-stats">
+          <span><strong><%= recordings.length %></strong> تلاوة</span>
+          <span><strong><%= videos.length %></strong> فيديو</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="reciter-content-section" id="recordings">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">استمع بقلبك</span>
+          <h2>التسجيلات الصوتية</h2>
+        </div>
+        <span class="coming-badge"><span></span> <%= recordings.length %> تلاوة</span>
+      </div>
+
+      <% if (recordings.length) { %>
+        <div class="recordings-list">
+          <% recordings.forEach((recording) => { %>
+            <article class="recording-card">
+              <div class="recording-heading">
+                <span class="recording-number"><%= recording.surah_number %></span>
+                <div class="recording-title">
+                  <h3><%= recording.surah_name %></h3>
+                  <span>سورة رقم <%= recording.surah_number %></span>
+                </div>
+                <% if (recording.duration_seconds !== null) { %>
+                  <span class="recording-duration">
+                    <%= Math.floor(recording.duration_seconds / 60) %>:<%= String(recording.duration_seconds % 60).padStart(2, "0") %>
+                  </span>
+                <% } %>
+              </div>
+              <audio controls preload="none">
+                <source src="<%= recording.audio_url %>">
+                متصفحك لا يدعم تشغيل الصوت.
+              </audio>
+              <% if (recording.download_enabled) { %>
+                <a class="recording-download"
+                   href="<%= recording.audio_url %>"
+                   download
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  <span aria-hidden="true">↓</span> تنزيل التسجيل
+                </a>
+              <% } %>
+            </article>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="library-empty">
+          <div class="empty-icon">♫</div>
+          <h3>لا توجد تسجيلات منشورة بعد</h3>
+          <p>ستظهر التلاوات هنا عند إضافتها ونشرها في المكتبة.</p>
+        </div>
+      <% } %>
+    </section>
+
+    <% if (videos.length) { %>
+      <section class="reciter-content-section" id="videos">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">شاهد واستمع</span>
+            <h2>فيديوهات القارئ</h2>
+          </div>
+          <span class="coming-badge"><span></span> <%= videos.length %> فيديو</span>
+        </div>
+        <div class="reciter-videos-grid">
+          <% videos.forEach((video) => { %>
+            <article class="reciter-video-card">
+              <div class="reciter-video-frame">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/<%= video.youtube_video_id %>"
+                  title="<%= video.title || ('تلاوة للقارئ ' + reciter.name) %>"
+                  loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+              <% if (video.title) { %>
+                <h3><%= video.title %></h3>
+              <% } %>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </main>
+
+  <footer class="footer">
+    <a class="brand footer-brand" href="/">
+      <span class="brand-mark"><img src="/icon.jpeg" alt="شعار البصائر"></span>
+      <span class="brand-name">البصائر<small>مساحة للصوت والسكينة</small></span>
+    </a>
+    <span>نسأل الله أن يجعل هذا العمل نافعًا.</span>
+    <span>© البصائر</span>
+  </footer>
+</body>
+</html>
