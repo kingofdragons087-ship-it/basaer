@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تسجيل الدخول | البصائر</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f2f7fc;color:#17324d;font-family:Arial,sans-serif;padding:20px}.card{width:min(420px,100%);background:white;padding:34px;border-radius:22px;box-shadow:0 15px 50px #17324d12;text-align:center}h1{margin-top:0;color:#1676a8}p{line-height:1.9;color:#587086}.btn{display:block;background:#1676a8;color:white;text-decoration:none;padding:14px;border-radius:12px;font-weight:bold}.warning{background:#fff4df;color:#77521a;padding:12px;border-radius:10px;line-height:1.7}
+</style>
+</head>
+<body><main class="card">
+<h1>البصائر</h1><p>منصة الاستماع إلى تلاوات القرآن الكريم</p>
+<% if (message) { %><p class="warning"><%= message %></p><% } %>
+<% if (configured) { %>
+<a class="btn" href="/auth/google">المتابعة باستخدام Google</a>
+<% } else { %>
+<p class="warning">تسجيل Google يحتاج إلى إكمال إعدادات الخادم.</p>
+<% } %>
+</main></body></html>

@@ -25,6 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const db = require("./db");
 
+require("./auth")(app, db);
+
 app.get("/", async (req, res) => {
   let reciters = [];
 
