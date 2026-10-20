@@ -126,7 +126,8 @@ h1 span { color: #3476c9; }
   .header-button { display: none; }
   .header-actions .header-button[href="/auth/google"],
   .header-actions .header-button[href="/account"],
-  .header-actions .header-button[href="/owner"] {
+  .header-actions .header-button[href="/owner"],
+  .header-actions #accountOpenBtn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
