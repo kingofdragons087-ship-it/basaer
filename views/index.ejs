@@ -30,7 +30,7 @@
         <span id="themeIcon">☾</span>
       </button>
       <% if (currentUser) { %>
-        <a class="header-button" href="/account">حسابي</a>
+        <a class="header-button" href="/account" id="accountOpenBtn" aria-haspopup="dialog" aria-controls="accountModal">حسابي</a>
         <% if (currentUser.role === "owner") { %>
           <a class="header-button" href="/owner">لوحة المالك</a>
         <% } %>
@@ -152,6 +152,68 @@
     <span>نسأل الله أن يجعل هذا العمل نافعًا.</span>
     <span>© البصائر</span>
   </footer>
+
+
+  <% if (currentUser) { %>
+  <div class="account-modal-overlay" id="accountModal" hidden>
+    <section class="account-modal-card" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle" dir="rtl">
+      <button class="account-modal-close" id="accountCloseBtn" type="button" aria-label="إغلاق">×</button>
+      <div class="account-modal-heading">
+        <% if (currentUser.avatar_url) { %>
+          <img class="account-modal-avatar" src="<%= currentUser.avatar_url %>" alt="الصورة الشخصية">
+        <% } else { %>
+          <div class="account-modal-avatar account-modal-avatar-fallback" aria-hidden="true">♙</div>
+        <% } %>
+        <div class="account-modal-identity">
+          <h2 id="accountModalTitle"><%= currentUser.display_name %></h2>
+          <p class="account-modal-email"><%= currentUser.email %></p>
+          <span class="account-modal-role"><%= currentUser.role === "owner" ? "♛ المالك" : currentUser.role === "admin" ? "مدير" : "مستخدم" %></span>
+        </div>
+      </div>
+      <div class="account-modal-divider"></div>
+      <div class="account-modal-actions">
+        <% if (currentUser.role === "owner") { %>
+          <a class="account-modal-primary" href="/owner">لوحة المالك ←</a>
+        <% } %>
+        <form method="post" action="/logout">
+          <button class="account-modal-logout" type="submit">تسجيل الخروج</button>
+        </form>
+      </div>
+      <p class="account-modal-footnote">البصائر · مساحة للصوت والسكينة</p>
+    </section>
+  </div>
+  <% } %>
+
+  <script>
+  (() => {
+    const modal = document.getElementById("accountModal");
+    const openBtn = document.getElementById("accountOpenBtn");
+    const closeBtn = document.getElementById("accountCloseBtn");
+    if (!modal || !openBtn || !closeBtn) return;
+
+    function openAccount(event) {
+      event.preventDefault();
+      modal.hidden = false;
+      document.body.classList.add("account-modal-open");
+      closeBtn.focus();
+    }
+
+    function closeAccount() {
+      modal.hidden = true;
+      document.body.classList.remove("account-modal-open");
+      openBtn.focus();
+    }
+
+    openBtn.addEventListener("click", openAccount);
+    closeBtn.addEventListener("click", closeAccount);
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeAccount();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !modal.hidden) closeAccount();
+    });
+  })();
+  </script>
 
 </body>
 </html>

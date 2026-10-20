@@ -796,3 +796,175 @@ html[data-theme="dark"] .recording-download:hover {
     flex-basis: 110px;
   }
 }
+
+
+/* BASAER: homepage account popup */
+.account-modal-overlay[hidden] {
+  display: none !important;
+}
+.account-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(9, 19, 35, .64);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.account-modal-card {
+  position: relative;
+  width: min(100%, 440px);
+  padding: 30px;
+  border: 1px solid #dce7f5;
+  border-radius: 25px;
+  background: #fff;
+  color: #17324d;
+  box-shadow: 0 25px 90px rgba(0, 0, 0, .24);
+  animation: basaerAccountAppear .2s ease-out;
+}
+.account-modal-close {
+  position: absolute;
+  top: 13px;
+  left: 15px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: #eef4fb;
+  color: #38516e;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+.account-modal-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding-top: 8px;
+}
+.account-modal-avatar {
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+  border: 3px solid #e1ecfb;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.account-modal-avatar-fallback {
+  display: grid;
+  place-items: center;
+  background: #edf4ff;
+  color: #3476c9;
+  font-size: 38px;
+}
+.account-modal-identity {
+  min-width: 0;
+}
+.account-modal-identity h2 {
+  margin: 0 0 7px;
+  font-size: 21px;
+  overflow-wrap: anywhere;
+}
+.account-modal-email {
+  margin: 0 0 10px;
+  color: #718198;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  direction: ltr;
+  text-align: right;
+}
+.account-modal-role {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #eaf2ff;
+  color: #245eb0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.account-modal-divider {
+  height: 1px;
+  margin: 25px 0 20px;
+  background: #e7edf5;
+}
+.account-modal-actions {
+  display: grid;
+  gap: 11px;
+}
+.account-modal-primary,
+.account-modal-logout {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 13px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.account-modal-primary {
+  background: linear-gradient(120deg, #3476c9, #2356a3);
+  color: #fff;
+}
+.account-modal-logout {
+  background: #fff0f0;
+  color: #b33a45;
+}
+.account-modal-actions form {
+  margin: 0;
+}
+.account-modal-footnote {
+  margin: 20px 0 0;
+  color: #8a98aa;
+  font-size: 11px;
+  text-align: center;
+}
+body.account-modal-open {
+  overflow: hidden;
+}
+@keyframes basaerAccountAppear {
+  from { opacity: 0; transform: translateY(10px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+html[data-theme="dark"] .account-modal-card {
+  border-color: #293448;
+  background: #111824;
+  color: #edf2ff;
+}
+html[data-theme="dark"] .account-modal-close {
+  background: #202c3e;
+  color: #e0eaff;
+}
+html[data-theme="dark"] .account-modal-email,
+html[data-theme="dark"] .account-modal-footnote {
+  color: #a0aec3;
+}
+html[data-theme="dark"] .account-modal-divider {
+  background: #293448;
+}
+html[data-theme="dark"] .account-modal-role {
+  background: #1c3558;
+  color: #a9ccff;
+}
+html[data-theme="dark"] .account-modal-logout {
+  background: #3b2028;
+  color: #ffb9c0;
+}
+@media (max-width: 480px) {
+  .account-modal-overlay { padding: 15px; }
+  .account-modal-card { padding: 25px 20px; border-radius: 21px; }
+  .account-modal-avatar { width: 67px; height: 67px; flex-basis: 67px; }
+  .account-modal-heading { gap: 12px; }
+  .account-modal-identity h2 { font-size: 18px; }
+  .account-modal-email { font-size: 11px; }
+}
