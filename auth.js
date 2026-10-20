@@ -33,6 +33,11 @@ function setupAuth(app, db) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.use((req, res, next) => {
+    res.locals.currentUser = req.user || null;
+    next();
+  });
+
   const configured = Boolean(
     process.env.GOOGLE_CLIENT_ID &&
     process.env.GOOGLE_CLIENT_SECRET &&

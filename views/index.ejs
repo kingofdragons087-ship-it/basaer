@@ -29,6 +29,14 @@
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الليلي" title="تغيير المظهر">
         <span id="themeIcon">☾</span>
       </button>
+      <% if (currentUser) { %>
+        <a class="header-button" href="/account">حسابي</a>
+        <% if (currentUser.role === "owner") { %>
+          <a class="header-button" href="/owner">لوحة المالك</a>
+        <% } %>
+      <% } else { %>
+        <a class="header-button" href="/auth/google">تسجيل الدخول بـ Google</a>
+      <% } %>
       <a class="header-button" href="#library">استكشف المكتبة ↙</a>
     </div>
   </header>
