@@ -140,10 +140,9 @@ function setupAuth(app, db) {
 
             const inserted = await client.query(
               `INSERT INTO users
-                 (id, google_sub, email, display_name, avatar_url,
+                 (google_sub, email, display_name, avatar_url,
                   role, is_active, created_at, updated_at)
                VALUES (
-                 (SELECT COALESCE(MAX(id), 0) + 1 FROM users),
                  $1, $2, $3, $4, $5, TRUE, NOW(), NOW()
                )
                RETURNING id, google_sub, email, display_name,
