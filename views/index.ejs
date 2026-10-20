@@ -30,7 +30,7 @@
         <span id="themeIcon">☾</span>
       </button>
       <% if (currentUser) { %>
-        <a class="header-button" href="/account" id="accountOpenBtn" aria-haspopup="dialog" aria-controls="accountModal">حسابي</a>
+        <button class="header-button" type="button" id="accountOpenBtn" aria-haspopup="dialog" aria-controls="accountModal">حسابي</button>
         <% if (currentUser.role === "owner") { %>
           <a class="header-button" href="/owner">لوحة المالك</a>
         <% } %>
