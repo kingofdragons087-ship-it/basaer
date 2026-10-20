@@ -231,7 +231,7 @@ function setupAuth(app, db) {
 
       req.session.save((saveError) => {
         if (saveError) return res.redirect("/login?error=google");
-        return res.redirect("/account");
+        return res.redirect("/");
       });
     });
   });
