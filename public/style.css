@@ -124,6 +124,19 @@ h1 span { color: #3476c9; }
   .topbar { min-height: 78px; }
   .navigation { gap: 15px; }
   .header-button { display: none; }
+  .header-actions .header-button[href="/auth/google"],
+  .header-actions .header-button[href="/account"],
+  .header-actions .header-button[href="/owner"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  .header-actions .header-button[href="#library"] {
+    display: none;
+  }
   .hero { padding: 40px 30px; grid-template-columns: 1fr .8fr; }
   .hero-art { transform: scale(.88); }
   .features { gap: 15px; }
