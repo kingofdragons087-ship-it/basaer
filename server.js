@@ -76,8 +76,12 @@ app.get("/reciters/:slug", async (req, res) => {
   }
 
   try {
+    await db.query(
+      "ALTER TABLE reciters ADD COLUMN IF NOT EXISTS background_url TEXT"
+    );
+
     const reciterResult = await db.query(
-      `SELECT id, name, slug, biography, image_url
+      `SELECT id, name, slug, biography, image_url, background_url
        FROM reciters
        WHERE slug = $1 AND is_published = TRUE
        LIMIT 1`,

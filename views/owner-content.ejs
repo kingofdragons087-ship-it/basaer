@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102d50">
+  <title>إدارة المحتوى | البصائر</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/theme.js" defer></script>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:var(--page-bg,#f3f7fc);color:var(--text,#18314f)}
+    .bar{padding:18px 4%;background:linear-gradient(120deg,#102747,#194d78);color:white;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .bar h1{font-size:20px;margin:0}
+    .bar nav{display:flex;gap:8px;flex-wrap:wrap}
+    .bar a,.bar button{color:white;background:#ffffff18;border:1px solid #ffffff45;border-radius:10px;padding:10px 13px;text-decoration:none;font:inherit;font-size:13px;cursor:pointer}
+    main{width:min(1100px,94%);margin:24px auto 50px}
+    .intro,.panel{background:var(--card-bg,#fff);border:1px solid var(--border,#e1eaf5);border-radius:16px;padding:20px;margin-bottom:18px}
+    h2{font-size:19px;margin:0 0 14px} h3{font-size:16px;margin:0 0 12px}
+    .sub{color:var(--muted,#71839a);font-size:13px;line-height:1.8}
+    .forms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    label{display:block;font-size:13px;font-weight:700;margin:11px 0 6px}
+    input,select,textarea{width:100%;padding:11px;border:1px solid var(--border,#d7e1ee);border-radius:10px;background:var(--input-bg,#fff);color:inherit;font:inherit;font-size:14px}
+    textarea{min-height:78px;resize:vertical}
+    input[type=checkbox]{width:auto}
+    .check{display:flex;align-items:center;gap:8px}
+    .submit{width:100%;border:0;border-radius:10px;background:#1769aa;color:white;font-weight:800;padding:12px;margin-top:15px;cursor:pointer}
+    .msg{padding:12px;border-radius:10px;margin-bottom:12px;background:#e3f5eb;color:#17633f}
+    .err{background:#fff0f0;color:#8b2828}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;min-width:540px}
+    th,td{text-align:right;padding:11px;border-bottom:1px solid var(--border,#e5edf6);font-size:13px}
+    th{color:var(--muted,#71839a)}
+    .delete{background:#fff0f0;color:#8b2828;border:1px solid #f0caca;border-radius:8px;padding:7px 10px;cursor:pointer}
+    .badge{font-size:12px;padding:4px 8px;border-radius:20px;background:#e7f2ff}
+    .lists{display:grid;gap:16px;margin-top:20px}
+    .help{font-size:12px;color:var(--muted,#71839a);line-height:1.8}
+    @media(max-width:760px){.forms{grid-template-columns:1fr}.intro,.panel{padding:15px}main{width:94%}}
+    :root[data-theme=dark] body{background:#0b1220;color:#e5edf8}
+    :root[data-theme=dark] .intro,:root[data-theme=dark] .panel{background:#111d30;border-color:#263750}
+    :root[data-theme=dark] input,:root[data-theme=dark] select,:root[data-theme=dark] textarea{background:#0b1628;border-color:#344761;color:#e5edf8}
+    :root[data-theme=dark] th,:root[data-theme=dark] td{border-color:#263750}
+  </style>
+</head>
+<body>
+<header class="bar">
+  <h1>۞ البصائر — إدارة المحتوى</h1>
+  <nav>
+    <button id="themeToggle" type="button"><span id="themeIcon">☾</span> <span id="themeLabel">الوضع الداكن</span></button>
+    <a href="/owner">لوحة المالك</a>
+    <a href="/">الموقع</a>
+  </nav>
+</header>
+<main>
+  <section class="intro">
+    <h2>مركز إدارة المكتبة</h2>
+    <div class="sub">إضافة ملفات القراء والصور والتلاوات الصوتية وروابط YouTube. العناصر الجديدة لا تظهر للزوار إلا عند تفعيل النشر.</div>
+  </section>
+  <% if (message) { %><div class="msg"><%= message %></div><% } %>
+  <% if (error) { %><div class="msg err"><%= error %></div><% } %>
+
+  <div class="forms">
+    <section class="panel">
+      <h3>إضافة قارئ جديد</h3>
+      <form action="/owner/content/reciters" method="post" enctype="multipart/form-data">
+        <label for="rname">اسم القارئ</label>
+        <input id="rname" name="name" required maxlength="180" placeholder="مثال: عبد الباسط عبد الصمد">
+        <label for="rslug">معرّف الرابط بالإنجليزية</label>
+        <input id="rslug" name="slug" required pattern="[a-zA-Z0-9-]+" maxlength="180" placeholder="abdul-basit-abdus-samad">
+        <label for="bio">نبذة عن القارئ</label>
+        <textarea id="bio" name="biography" maxlength="3000"></textarea>
+        <label for="rimage">صورة القارئ (JPG أو PNG أو WebP، حتى 10 ميغابايت)</label>
+        <input id="rimage" type="file" name="image" accept="image/jpeg,image/png,image/webp">
+        <label for="rbackground">صورة خلفية صفحة القارئ</label>
+        <input id="rbackground" type="file" name="background" accept="image/jpeg,image/png,image/webp">
+        <label for="rorder">ترتيب الظهور</label>
+        <input id="rorder" type="number" name="sort_order" value="0">
+        <label class="check"><input type="checkbox" name="is_published"> نشر القارئ مباشرة</label>
+        <button class="submit" type="submit">إضافة القارئ</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h3>إضافة تلاوة صوتية</h3>
+      <form action="/owner/content/recordings" method="post">
+        <label for="areciter">القارئ</label>
+        <select id="areciter" name="reciter_id" required>
+          <option value="">اختر القارئ</option>
+          <% reciters.forEach(r => { %><option value="<%= r.id %>"><%= r.name %></option><% }) %>
+        </select>
+        <label for="snum">رقم السورة (1–114)</label>
+        <input id="snum" type="number" name="surah_number" min="1" max="114" required>
+        <label for="sname">اسم السورة</label>
+        <input id="sname" name="surah_name" required maxlength="120" placeholder="سورة الفاتحة">
+        <label for="audio">رابط الصوت HTTPS</label>
+        <input id="audio" type="url" name="audio_url" required placeholder="https://..." dir="ltr">
+        <label for="aorder">ترتيب التلاوة</label>
+        <input id="aorder" type="number" name="sort_order" value="0">
+        <label class="check"><input type="checkbox" name="download_enabled" checked> السماح بالتنزيل</label>
+        <label class="check"><input type="checkbox" name="is_published"> نشر التلاوة</label>
+        <button class="submit" type="submit">إضافة التلاوة</button>
+      </form>
+      <p class="help">استخدم رابط ملف صوتي مباشرًا يدعم تشغيل المتصفح، وليس رابط صفحة ويب عادية.</p>
+    </section>
+
+    <section class="panel">
+      <h3>إضافة فيديو YouTube</h3>
+      <form action="/owner/content/videos" method="post">
+        <label for="vreciter">القارئ</label>
+        <select id="vreciter" name="reciter_id" required>
+          <option value="">اختر القارئ</option>
+          <% reciters.forEach(r => { %><option value="<%= r.id %>"><%= r.name %></option><% }) %>
+        </select>
+        <label for="youtube">رابط فيديو YouTube</label>
+        <input id="youtube" type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=..." dir="ltr">
+        <label for="vtitle">عنوان الفيديو (اختياري)</label>
+        <input id="vtitle" name="title" maxlength="250" placeholder="عنوان الفيديو">
+        <label for="vorder">ترتيب الفيديو</label>
+        <input id="vorder" type="number" name="sort_order" value="0">
+        <label class="check"><input type="checkbox" name="is_published"> نشر الفيديو</label>
+        <button class="submit" type="submit">إضافة الفيديو</button>
+      </form>
+      <p class="help">تُعرض معاينة الفيديو باستخدام معرّفه. جلب العنوان تلقائيًا من YouTube يحتاج تكاملًا إضافيًا؛ العنوان هنا اختياري.</p>
+    </section>
+  </div>
+
+  <div class="lists">
+    <section class="panel">
+      <h3>القراء — <%= reciters.length %></h3>
+      <div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الرابط</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+      <% reciters.forEach(r => { %><tr>
+        <td><%= r.name %></td><td dir="ltr">/reciters/<%= r.slug %></td>
+        <td><span class="badge"><%= r.is_published ? "منشور" : "مسودة" %></span></td>
+        <td><form action="/owner/content/reciters/<%= r.id %>/delete" method="post" onsubmit="return confirm('هل تريد حذف هذا القارئ؟')"><button class="delete" type="submit">حذف</button></form></td>
+      </tr><% }) %>
+      <% if (!reciters.length) { %><tr><td colspan="4">لا يوجد قراء بعد.</td></tr><% } %>
+      </tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <h3>التلاوات الصوتية — <%= recordings.length %></h3>
+      <div class="table-wrap"><table><thead><tr><th>القارئ</th><th>السورة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+      <% recordings.forEach(a => { %><tr>
+        <td><%= a.reciter_name %></td><td><%= a.surah_number %> — <%= a.surah_name %></td>
+        <td><span class="badge"><%= a.is_published ? "منشورة" : "مسودة" %></span></td>
+        <td><form action="/owner/content/recordings/<%= a.id %>/delete" method="post" onsubmit="return confirm('هل تريد حذف هذه التلاوة؟')"><button class="delete" type="submit">حذف</button></form></td>
+      </tr><% }) %>
+      <% if (!recordings.length) { %><tr><td colspan="4">لا توجد تلاوات بعد.</td></tr><% } %>
+      </tbody></table></div>
+    </section>
+
+    <section class="panel">
+      <h3>فيديوهات YouTube — <%= videos.length %></h3>
+      <div class="table-wrap"><table><thead><tr><th>القارئ</th><th>العنوان</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+      <% videos.forEach(v => { %><tr>
+        <td><%= v.reciter_name %></td><td><%= v.title || "فيديو YouTube" %></td>
+        <td><span class="badge"><%= v.is_published ? "منشور" : "مسودة" %></span></td>
+        <td><form action="/owner/content/videos/<%= v.id %>/delete" method="post" onsubmit="return confirm('هل تريد حذف هذا الفيديو؟')"><button class="delete" type="submit">حذف</button></form></td>
+      </tr><% }) %>
+      <% if (!videos.length) { %><tr><td colspan="4">لا توجد فيديوهات بعد.</td></tr><% } %>
+      </tbody></table></div>
+    </section>
+  </div>
+</main>
+</body>
+</html>

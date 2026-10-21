@@ -31,8 +31,46 @@
     </div>
   </header>
 
+  <style>
+    .basaer-reciter-cover {
+      position:relative; isolation:isolate; overflow:hidden;
+      border-radius:24px; margin:22px auto 26px;
+      padding:30px 20px; width:min(1100px,94%);
+      background:linear-gradient(135deg,#102d50,#285f85);
+      color:#fff; text-align:center;
+    }
+    .basaer-reciter-cover::before {
+      content:""; position:absolute; inset:0; z-index:-1;
+      background-image:var(--reciter-cover);
+      background-size:cover; background-position:center;
+      opacity:.28;
+    }
+    .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.9;margin:0 0 22px;color:inherit}
+    .basaer-reciter-cover .reciter-profile {margin:0;padding:0;background:transparent;border:0;box-shadow:none}
+    .basaer-reciter-cover .reciter-profile-info h1,
+    .basaer-reciter-cover .reciter-profile-info p,
+    .basaer-reciter-cover .section-kicker {color:#fff}
+    .basaer-reciter-cover .reciter-profile-stats span {color:#fff}
+    .basaer-reciter-cover .reciter-profile-image {border:3px solid #ffffffa8}
+    .basaer-tabs {display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:0 auto 24px;width:min(1100px,94%)}
+    .basaer-tab {border:1px solid var(--border,#dce5ef);border-radius:13px;padding:12px 18px;background:var(--card-bg,#fff);color:inherit;font:inherit;font-weight:750;cursor:pointer}
+    .basaer-tab[aria-selected="true"] {background:#175c91;color:white;border-color:#175c91}
+    .basaer-tab-panel[hidden] {display:none!important}
+    .basaer-wave {height:36px;display:flex;align-items:center;justify-content:center;gap:3px;margin:12px 0;overflow:hidden}
+    .basaer-wave span {display:block;width:3px;height:8px;border-radius:5px;background:#4c91cf;opacity:.85}
+    .recording-card.is-playing .basaer-wave span {animation:basaerWave .7s ease-in-out infinite alternate}
+    .recording-card.is-playing .basaer-wave span:nth-child(3n) {animation-delay:-.3s}
+    .recording-card.is-playing .basaer-wave span:nth-child(3n + 1) {animation-delay:-.5s}
+    @keyframes basaerWave {from{height:5px}to{height:32px}}
+    .basaer-video-number {display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:9px;background:#175c91;color:#fff;margin:12px 0 0;font-weight:800}
+    @media(max-width:600px){.basaer-reciter-cover{padding:23px 12px;border-radius:18px}.basaer-tab{flex:1;padding:11px 8px;font-size:13px}}
+    @media(prefers-reduced-motion:reduce){.recording-card.is-playing .basaer-wave span{animation:none;height:12px}}
+  </style>
+  <!-- BASAER_RECITER_TABS_V1 -->
   <main class="reciter-page">
-    <section class="reciter-profile">
+    <section class="basaer-reciter-cover" style="<%= reciter.background_url ? '--reciter-cover: url(&quot;' + reciter.background_url.replace(/["'()\\]/g, '') + '&quot;);' : '' %>">
+      <p class="basaer-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      <section class="reciter-profile">
       <div class="reciter-profile-image">
         <% if (reciter.image_url) { %>
           <img src="<%= reciter.image_url %>"
@@ -54,8 +92,17 @@
           <span><strong><%= videos.length %></strong> فيديو</span>
         </div>
       </div>
+      </section>
     </section>
 
+    <div class="basaer-tabs" role="tablist" aria-label="نوع محتوى القارئ">
+      <button class="basaer-tab" id="basaer-audio-tab" type="button" role="tab"
+        aria-controls="basaer-audio-panel" aria-selected="true">تحميل أو استمع للصوت</button>
+      <button class="basaer-tab" id="basaer-video-tab" type="button" role="tab"
+        aria-controls="basaer-video-panel" aria-selected="false">تحميل أو مشاهدة فيديو</button>
+    </div>
+
+    <div id="basaer-audio-panel" class="basaer-tab-panel" role="tabpanel" aria-labelledby="basaer-audio-tab">
     <section class="reciter-content-section" id="recordings">
       <div class="section-heading">
         <div>
@@ -80,6 +127,9 @@
                     <%= Math.floor(recording.duration_seconds / 60) %>:<%= String(recording.duration_seconds % 60).padStart(2, "0") %>
                   </span>
                 <% } %>
+              </div>
+              <div class="basaer-wave" aria-hidden="true">
+                <% for (let wave = 0; wave < 42; wave++) { %><span></span><% } %>
               </div>
               <audio controls preload="none">
                 <source src="<%= recording.audio_url %>">
@@ -106,6 +156,8 @@
       <% } %>
     </section>
 
+    </div>
+    <div id="basaer-video-panel" class="basaer-tab-panel" role="tabpanel" aria-labelledby="basaer-video-tab" hidden>
     <% if (videos.length) { %>
       <section class="reciter-content-section" id="videos">
         <div class="section-heading">
@@ -118,6 +170,7 @@
         <div class="reciter-videos-grid">
           <% videos.forEach((video) => { %>
             <article class="reciter-video-card">
+              <span class="basaer-video-number"><%= videos.indexOf(video) + 1 %></span>
               <div class="reciter-video-frame">
                 <iframe
                   src="https://www.youtube-nocookie.com/embed/<%= video.youtube_video_id %>"
@@ -135,7 +188,46 @@
         </div>
       </section>
     <% } %>
+    </div>
   </main>
+
+  <script>
+    (() => {
+      const audioTab = document.getElementById("basaer-audio-tab");
+      const videoTab = document.getElementById("basaer-video-tab");
+      const audioPanel = document.getElementById("basaer-audio-panel");
+      const videoPanel = document.getElementById("basaer-video-panel");
+
+      function activate(which) {
+        const audioActive = which === "audio";
+        audioTab.setAttribute("aria-selected", String(audioActive));
+        videoTab.setAttribute("aria-selected", String(!audioActive));
+        audioPanel.hidden = !audioActive;
+        videoPanel.hidden = audioActive;
+      }
+
+      audioTab.addEventListener("click", () => activate("audio"));
+      videoTab.addEventListener("click", () => activate("video"));
+
+      document.querySelectorAll(".recording-card").forEach(card => {
+        const audio = card.querySelector("audio");
+        if (!audio) return;
+        audio.addEventListener("play", () => {
+          document.querySelectorAll(".recording-card").forEach(other => {
+            other.classList.remove("is-playing");
+            if (other !== card) {
+              const otherAudio = other.querySelector("audio");
+              if (otherAudio) otherAudio.pause();
+            }
+          });
+          card.classList.add("is-playing");
+        });
+        const stopWave = () => card.classList.remove("is-playing");
+        audio.addEventListener("pause", stopWave);
+        audio.addEventListener("ended", stopWave);
+      });
+    })();
+  </script>
 
   <footer class="footer">
     <a class="brand footer-brand" href="/">

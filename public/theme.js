@@ -2,12 +2,14 @@
   const root = document.documentElement;
   const button = document.getElementById('themeToggle');
   const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
 
   if (!button || !icon) return;
 
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
     icon.textContent = theme === 'dark' ? '☀' : '☾';
+    if (label) label.textContent = theme === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن';
     button.setAttribute(
       'aria-label',
       theme === 'dark' ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الليلي'
