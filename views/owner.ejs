@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#102d50">
   <title>لوحة المالك | البصائر</title>
+  <script src="/theme.js" defer></script>
   <style>
     :root {
       color-scheme: light;
@@ -109,6 +110,59 @@
       .topbar { padding:18px 4%; }
       .container { width:92%;margin-top:22px; }
     }
+  
+    /* ثيم لوحة المالك مرتبط بإعداد الثيم المحفوظ في البصائر */
+    :root[data-theme="light"] {
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      background: #0b1220;
+      color: #e5edf8;
+    }
+    :root[data-theme="dark"] body {
+      background: #0b1220;
+      color: #e5edf8;
+    }
+    :root[data-theme="dark"] .stat,
+    :root[data-theme="dark"] .panel {
+      background: #111d30;
+      border-color: #263750;
+      color: #e5edf8;
+      box-shadow: 0 7px 25px #00000020;
+    }
+    :root[data-theme="dark"] .muted,
+    :root[data-theme="dark"] .stat-label,
+    :root[data-theme="dark"] .hint,
+    :root[data-theme="dark"] .panel p {
+      color: #a8b8ce;
+    }
+    :root[data-theme="dark"] .icon {
+      background: #20324d;
+    }
+    :root[data-theme="dark"] .link-card {
+      background: #17263b;
+      border-color: #2b405c;
+      color: #e5edf8;
+    }
+    :root[data-theme="dark"] .link-card:hover {
+      background: #203653;
+      border-color: #648bb9;
+    }
+    :root[data-theme="dark"] footer {
+      color: #93a4bc;
+    }
+    .theme-toggle {
+      background: #ffffff18;
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .theme-toggle:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
   </style>
 </head>
 <body>
@@ -121,6 +175,7 @@
       </div>
     </div>
     <nav class="top-actions" aria-label="التنقل الرئيسي">
+      <button class="button theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الليلي"><span id="themeIcon" aria-hidden="true">☾</span><span>الثيم</span></button>
       <a class="button" href="/">الرئيسية</a>
       <form action="/logout" method="post" class="logout-form"><button class="button primary" type="submit">تسجيل الخروج</button></form>
     </nav>
