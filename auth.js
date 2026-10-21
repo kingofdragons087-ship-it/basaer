@@ -422,7 +422,13 @@ function setupAuth(app, db) {
         );
         res.redirect("/owner/content?message=" + encodeURIComponent("تمت إضافة القارئ."));
       } catch (error) {
-        console.error("Create reciter failed:", error.code || error.message || "ERROR");
+        console.error("Create reciter failed:", {
+          code: error.code,
+          message: error.message,
+          table: error.table,
+          column: error.column,
+          constraint: error.constraint
+        });
         const message = error.code === "23505"
           ? "معرّف الرابط مستخدم بالفعل."
           : error.message === "POSTFILE_API_KEY_MISSING"
