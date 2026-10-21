@@ -417,7 +417,7 @@ function setupAuth(app, db) {
           `INSERT INTO reciters
              (name, slug, biography, image_url, background_url, is_published, sort_order)
            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [name, slug, biography || null, imageUrl, backgroundUrl,
+          [name, slug, biography || '', imageUrl, backgroundUrl,
            req.body.is_published === "on", Number(req.body.sort_order) || 0]
         );
         res.redirect("/owner/content?message=" + encodeURIComponent("تمت إضافة القارئ."));
