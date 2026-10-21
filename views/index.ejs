@@ -38,10 +38,7 @@
       <a href="#about">عن البصائر</a>
     </nav>
     <div class="header-actions">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الليلي" title="تغيير المظهر">
-        <span id="themeIcon" aria-hidden="true">☾</span>
-
-      </button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الليلي" title="تغيير المظهر"><span id="themeIcon" aria-hidden="true">☀️</span></button>
       <% if (currentUser) { %>
         <button class="header-button" type="button" id="accountOpenBtn" aria-haspopup="dialog" aria-controls="accountModal">حسابي</button>
         <% if (currentUser.role === "owner") { %>
