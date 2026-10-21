@@ -243,7 +243,7 @@ function setupAuth(app, db) {
     return res.render("account", { user: req.user });
   });
 
-  app.get("/owner", (req, res) => {
+  app.get("/owner", async (req, res) => {
     if (!req.isAuthenticated || !req.isAuthenticated()) {
       return res.redirect("/login");
     }
@@ -252,7 +252,53 @@ function setupAuth(app, db) {
       return res.status(403).send("غير مصرح لك بالدخول إلى لوحة المالك.");
     }
 
-    return res.render("owner", { user: req.user });
+    const stats = {
+      users: null,
+      owners: null,
+      reciters: null,
+      publishedReciters: null,
+      recordings: null,
+      publishedRecordings: null,
+      videos: null,
+      reports: null,
+      unresolvedReports: null
+    };
+    let statsError = false;
+
+    try {
+      const result = await db.query(`
+        SELECT
+          (SELECT COUNT(*)::int FROM users) AS users,
+          (SELECT COUNT(*)::int FROM users WHERE role = 'owner') AS owners,
+          (SELECT COUNT(*)::int FROM reciters) AS reciters,
+          (SELECT COUNT(*)::int FROM reciters WHERE is_published = TRUE) AS published_reciters,
+          (SELECT COUNT(*)::int FROM recordings) AS recordings,
+          (SELECT COUNT(*)::int FROM recordings WHERE is_published = TRUE) AS published_recordings,
+          (SELECT COUNT(*)::int FROM reciter_videos) AS videos,
+          (SELECT COUNT(*)::int FROM reports) AS reports,
+          (SELECT COUNT(*)::int FROM reports WHERE status IS DISTINCT FROM 'resolved') AS unresolved_reports
+      `);
+
+      const row = result.rows[0];
+      stats.users = row.users;
+      stats.owners = row.owners;
+      stats.reciters = row.reciters;
+      stats.publishedReciters = row.published_reciters;
+      stats.recordings = row.recordings;
+      stats.publishedRecordings = row.published_recordings;
+      stats.videos = row.videos;
+      stats.reports = row.reports;
+      stats.unresolvedReports = row.unresolved_reports;
+    } catch (error) {
+      statsError = true;
+      console.error("Owner dashboard statistics query failed:", error.code || "DATABASE_ERROR");
+    }
+
+    return res.render("owner", {
+      user: req.user,
+      stats,
+      statsError
+    });
   });
 
   app.post("/logout", (req, res, next) => {

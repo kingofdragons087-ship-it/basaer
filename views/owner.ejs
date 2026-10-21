@@ -1,5 +1,210 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>لوحة المالك | البصائر</title>
-<style>body{font-family:Arial;background:#f2f7fc;color:#17324d;padding:25px}.card{max-width:700px;margin:40px auto;background:white;padding:28px;border-radius:18px}a{color:#1676a8}</style></head>
-<body><main class="card"><h1>لوحة مالك البصائر</h1><p>مرحبًا <%= user.display_name %></p><p>تم التحقق من صلاحية المالك.</p><p>هذه نقطة البداية للوحة الإدارة؛ لم تُضف بعد أدوات تعديل المحتوى.</p><a href="/">الرئيسية</a></main></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102d50">
+  <title>لوحة المالك | البصائر</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #f3f7fc;
+      color: #18314f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+    .topbar {
+      background: linear-gradient(120deg,#102747,#194d78);
+      color: white;
+      padding: 22px max(5%, calc((100% - 1150px)/2));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .logo {
+      width:46px;height:46px;border-radius:15px;
+      display:grid;place-items:center;background:#ffffff1c;
+      border:1px solid #ffffff35;font-size:25px;
+    }
+    h1,h2,p { margin-top:0; }
+    .brand h1 { font-size:19px;margin:0; }
+    .brand p { margin:4px 0 0;color:#c8d9ec;font-size:12px; }
+    .top-actions { display:flex;gap:9px;flex-wrap:wrap; }
+    .button {
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:40px;padding:10px 15px;border-radius:11px;
+      border:1px solid #ffffff45;font-size:13px;font-weight:700;
+    }
+    .button.primary { background:white;color:#173c63; }
+    .button:hover { opacity:.88; }
+    .container { width:min(1150px,92%);margin:30px auto 55px; }
+    .welcome {
+      display:flex;justify-content:space-between;align-items:center;
+      gap:15px;flex-wrap:wrap;margin-bottom:25px;
+    }
+    .welcome h2 { font-size:25px;margin-bottom:7px; }
+    .muted { color:#72839a;font-size:14px;line-height:1.8; }
+    .badge {
+      background:#e3f5eb;color:#18764d;border-radius:999px;
+      padding:8px 13px;font-size:12px;font-weight:800;
+    }
+    .section-title { font-size:17px;margin:27px 0 14px; }
+    .grid {
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;
+    }
+    .stat {
+      background:white;border:1px solid #e5edf6;border-radius:18px;
+      padding:20px;box-shadow:0 7px 25px #1c426b08;min-width:0;
+    }
+    .stat-top { display:flex;justify-content:space-between;align-items:center;gap:8px; }
+    .stat-label { font-size:13px;color:#687c95;font-weight:650; }
+    .icon {
+      width:38px;height:38px;display:grid;place-items:center;
+      border-radius:12px;background:#edf4ff;font-size:19px;
+    }
+    .value { font-size:31px;font-weight:850;letter-spacing:-1px;margin:16px 0 5px; }
+    .hint { color:#8190a4;font-size:12px; }
+    .panels {
+      display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:22px;
+    }
+    .panel {
+      background:white;border:1px solid #e5edf6;border-radius:18px;
+      padding:21px;min-width:0;
+    }
+    .panel h3 { font-size:16px;margin:0 0 7px; }
+    .panel p { font-size:13px;color:#74849a;line-height:1.9;margin-bottom:16px; }
+    .links { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
+    .link-card {
+      border:1px solid #e7edf5;border-radius:12px;padding:13px;
+      font-size:13px;font-weight:700;background:#fbfdff;
+    }
+    .link-card:hover { border-color:#83a9d7;background:#f2f7ff; }
+    .notice {
+      background:#fff8e8;border:1px solid #f3dfae;color:#795b1b;
+      padding:13px 15px;border-radius:12px;font-size:13px;
+      line-height:1.8;margin-bottom:18px;
+    }
+    .error {
+      background:#fff0f0;border:1px solid #f0caca;color:#8b2828;
+      padding:13px 15px;border-radius:12px;font-size:13px;
+      line-height:1.8;margin-bottom:18px;
+    }
+    footer { text-align:center;color:#8795a8;font-size:12px;padding:10px 0 25px; }
+    @media(max-width:760px) {
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .panels { grid-template-columns:1fr; }
+      .welcome h2 { font-size:21px; }
+    }
+    @media(max-width:420px) {
+      .grid { grid-template-columns:1fr 1fr;gap:9px; }
+      .stat { padding:14px; }
+      .value { font-size:26px; }
+      .stat-label { font-size:12px; }
+      .links { grid-template-columns:1fr; }
+      .topbar { padding:18px 4%; }
+      .container { width:92%;margin-top:22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">۞</div>
+      <div>
+        <h1>البصائر</h1>
+        <p>مركز إدارة المنصة</p>
+      </div>
+    </div>
+    <nav class="top-actions" aria-label="التنقل الرئيسي">
+      <a class="button" href="/">الرئيسية</a>
+      <form action="/logout" method="post" class="logout-form"><button class="button primary" type="submit">تسجيل الخروج</button></form>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <h2>مرحبًا، <%= user.display_name || "مالك المنصة" %></h2>
+        <div class="muted">هذه نظرة عامة على بيانات منصة البصائر الفعلية.</div>
+      </div>
+      <span class="badge">✓ صلاحية المالك مؤكدة</span>
+    </section>
+
+    <% if (statsError) { %>
+      <div class="error">تعذر تحميل الإحصائيات من قاعدة البيانات. تحقق من اتصال الخدمة في Render؛ لم تُعرض أرقام تجريبية.</div>
+    <% } %>
+
+    <h2 class="section-title">إحصائيات المنصة</h2>
+    <section class="grid" aria-label="إحصائيات المنصة">
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">إجمالي المستخدمين</span><span class="icon">👥</span></div>
+        <div class="value"><%= stats.users ?? "—" %></div>
+        <div class="hint">الحسابات المسجلة</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">المالكون</span><span class="icon">🛡️</span></div>
+        <div class="value"><%= stats.owners ?? "—" %></div>
+        <div class="hint">حسابات بدور المالك في قاعدة البيانات</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">القراء</span><span class="icon">📖</span></div>
+        <div class="value"><%= stats.reciters ?? "—" %></div>
+        <div class="hint">إجمالي ملفات القراء</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">القراء المنشورون</span><span class="icon">✓</span></div>
+        <div class="value"><%= stats.publishedReciters ?? "—" %></div>
+        <div class="hint">الظاهرون على الموقع</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">التسجيلات الصوتية</span><span class="icon">🎧</span></div>
+        <div class="value"><%= stats.recordings ?? "—" %></div>
+        <div class="hint">إجمالي التسجيلات</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">التسجيلات المنشورة</span><span class="icon">▶</span></div>
+        <div class="value"><%= stats.publishedRecordings ?? "—" %></div>
+        <div class="hint">التسجيلات المتاحة للزوار</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">الفيديوهات</span><span class="icon">🎬</span></div>
+        <div class="value"><%= stats.videos ?? "—" %></div>
+        <div class="hint">إجمالي فيديوهات القراء</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">البلاغات</span><span class="icon">🔔</span></div>
+        <div class="value"><%= stats.reports ?? "—" %></div>
+        <div class="hint">إجمالي بلاغات المستخدمين</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">بلاغات تحتاج متابعة</span><span class="icon">⚑</span></div>
+        <div class="value"><%= stats.unresolvedReports ?? "—" %></div>
+        <div class="hint">بلاغات لم تُحل بعد</div>
+      </article>
+    </section>
+
+    <section class="panels">
+      <article class="panel">
+        <h3>إدارة محتوى المنصة</h3>
+        <p>اختصارات للعودة إلى أقسام الموقع المتاحة حاليًا. ستُضاف أدوات الإدارة الفعلية بعد تحديد مساراتها الحالية.</p>
+        <div class="links">
+          <a class="link-card" href="/">⌂ عرض الموقع الرئيسي</a>
+          <a class="link-card" href="/#reciters">📖 استعراض القراء</a>
+        </div>
+      </article>
+      <article class="panel">
+        <h3>حالة لوحة المالك</h3>
+        <p>التحقق من صلاحية الدخول يتم على الخادم. الإحصائيات تُقرأ من قاعدة البيانات ولا تُعدّل محتوياتها.</p>
+        <div class="notice">ℹ️ هذه المرحلة للعرض والإحصائيات فقط. لم تتم إضافة أزرار حذف أو تعديل للبيانات.</div>
+      </article>
+    </section>
+
+    <footer>البصائر · لوحة إدارة خاصة · <%= new Date().getFullYear() %></footer>
+  </main>
+</body>
+</html>
