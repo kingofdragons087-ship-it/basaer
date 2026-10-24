@@ -45,33 +45,46 @@
       z-index: -1;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(5, 9, 16, .76), rgba(5, 9, 16, .88)),
+        linear-gradient(180deg, rgba(5, 9, 16, .48), rgba(5, 9, 16, .78) 55%, #080b10 100%),
         var(--reciter-cover);
-      background-size: contain;
+      background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
+      transform: scale(1.01);
     }
     .basaer-reciter-cover {
       position: relative;
-      width: min(900px, calc(100% - 32px));
-      margin: 28px auto 34px;
-      padding: 26px 24px 28px;
+      isolation: isolate;
+      overflow: hidden;
+      width: min(820px, calc(100% - 32px));
+      margin: 34px auto 30px;
+      padding: clamp(22px, 4vw, 38px);
       box-sizing: border-box;
-      background: rgba(8, 11, 16, .66);
-      border: 1px solid rgba(255, 255, 255, .14);
-      border-radius: 24px;
-      box-shadow: 0 14px 40px rgba(0, 0, 0, .16);
       color: #fff;
       text-align: center;
+      background: linear-gradient(145deg, rgba(20, 31, 45, .56), rgba(7, 12, 20, .42));
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 30px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .12);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
-    .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.8;margin:0 0 22px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.15);color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+    .basaer-reciter-cover::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 0%, rgba(102, 167, 220, .16), transparent 65%);
+    }
+    .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.9;margin:0 0 26px;padding:0 0 20px;border:0;border-bottom:1px solid rgba(255,255,255,.12);color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.55);letter-spacing:.2px}
     .basaer-reciter-cover .reciter-profile {margin:0;padding:0;background:transparent;border:0;box-shadow:none}
     .basaer-reciter-cover .reciter-profile-info h1,
     .basaer-reciter-cover .reciter-profile-info p,
     .basaer-reciter-cover .section-kicker {color:#fff}
     .basaer-reciter-cover .reciter-profile-stats span {color:#fff}
-    .basaer-reciter-cover .reciter-profile-image {border:3px solid #ffffffa8}
-    .basaer-tabs {display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:0 auto 30px;width:min(900px,calc(100% - 32px))}
+    .basaer-reciter-cover .reciter-profile-image {border:3px solid rgba(255,255,255,.78);box-shadow:0 10px 35px rgba(0,0,0,.3)}
+    .basaer-tabs {display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:0 auto 34px;width:min(820px,calc(100% - 32px))}
     .basaer-tab {border:1px solid var(--border,#dce5ef);border-radius:13px;padding:12px 18px;background:var(--card-bg,#fff);color:inherit;font:inherit;font-weight:750;cursor:pointer}
     .basaer-tab[aria-selected="true"] {background:#175c91;color:white;border-color:#175c91}
     html[data-theme="dark"] .basaer-tab:not([aria-selected="true"]) {
@@ -87,7 +100,7 @@
     .recording-card.is-playing .basaer-wave span:nth-child(3n + 1) {animation-delay:-.5s}
     @keyframes basaerWave {from{height:5px}to{height:32px}}
     .basaer-video-number {display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:9px;background:#175c91;color:#fff;margin:12px 0 0;font-weight:800}
-    @media(max-width:600px){.basaer-reciter-cover{width:calc(100% - 24px);padding:20px 14px;margin:18px auto 26px;border-radius:18px}.basaer-bismillah{margin-bottom:16px;padding-bottom:12px}.basaer-tabs{width:calc(100% - 24px);margin-bottom:24px}.basaer-tab{flex:1;padding:11px 8px;font-size:13px}}
+    @media(max-width:600px){.basaer-reciter-cover{width:calc(100% - 24px);padding:22px 15px;margin:20px auto 26px;border-radius:22px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.basaer-bismillah{margin-bottom:20px;padding-bottom:14px}.basaer-tabs{width:calc(100% - 24px);margin-bottom:26px;gap:8px}.basaer-tab{flex:1;padding:12px 8px;font-size:13px}}
     @media(prefers-reduced-motion:reduce){.recording-card.is-playing .basaer-wave span{animation:none;height:12px}}
   </style>
   <!-- BASAER_RECITER_TABS_V1 -->
