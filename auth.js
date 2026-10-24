@@ -522,10 +522,17 @@ function setupAuth(app, db) {
       );
       res.redirect("/owner/content?message=" + encodeURIComponent("تمت إضافة الفيديو ومعاينته عبر YouTube."));
     } catch (error) {
-      console.error("Create video failed:", error.code || "ERROR");
+      console.error("Create video failed:", {
+        message: error.message,
+        code: error.code,
+        detail: error.detail,
+        constraint: error.constraint,
+        table: error.table,
+        column: error.column
+      });
       const message = error.message === "INVALID_YOUTUBE_URL"
         ? "رابط YouTube غير صالح."
-        : "تعذرت إضافة الفيديو. تحقق من البيانات.";
+        : "تعذرت إضافة الفيديو. راجع سجلات التطبيق لمعرفة السبب.";
       res.redirect("/owner/content?error=" + encodeURIComponent(message));
     }
   });
