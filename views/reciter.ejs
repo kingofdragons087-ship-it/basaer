@@ -55,6 +55,11 @@
     .basaer-tabs {display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:0 auto 24px;width:min(1100px,94%)}
     .basaer-tab {border:1px solid var(--border,#dce5ef);border-radius:13px;padding:12px 18px;background:var(--card-bg,#fff);color:inherit;font:inherit;font-weight:750;cursor:pointer}
     .basaer-tab[aria-selected="true"] {background:#175c91;color:white;border-color:#175c91}
+    html[data-theme="dark"] .basaer-tab:not([aria-selected="true"]) {
+      background: #111824;
+      color: #edf2ff;
+      border-color: #293448;
+    }
     .basaer-tab-panel[hidden] {display:none!important}
     .basaer-wave {height:36px;display:flex;align-items:center;justify-content:center;gap:3px;margin:12px 0;overflow:hidden}
     .basaer-wave span {display:block;width:3px;height:8px;border-radius:5px;background:#4c91cf;opacity:.85}
@@ -68,7 +73,7 @@
   </style>
   <!-- BASAER_RECITER_TABS_V1 -->
   <main class="reciter-page">
-    <section class="basaer-reciter-cover" style="<%= reciter.background_url ? '--reciter-cover: url(&quot;' + reciter.background_url.replace(/["'()\\]/g, '') + '&quot;);' : '' %>">
+    <section class="basaer-reciter-cover"<% if (reciter.background_url) { %> style="--reciter-cover: url(&quot;<%= reciter.background_url %>&quot;);"<% } %>>
       <p class="basaer-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
       <section class="reciter-profile">
       <div class="reciter-profile-image">
