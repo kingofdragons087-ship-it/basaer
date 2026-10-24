@@ -514,9 +514,11 @@ function setupAuth(app, db) {
 
       await db.query(
         `INSERT INTO reciter_videos
-           (reciter_id, title, youtube_video_id, is_published, sort_order)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [reciterId, title || "فيديو YouTube", videoId,
+           (reciter_id, title, youtube_url, youtube_video_id, is_published, sort_order)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [reciterId, title || "فيديو YouTube",
+         `https://www.youtube.com/watch?v=${videoId}`,
+         videoId,
          req.body.is_published === "on",
          Number(req.body.sort_order) || 0]
       );
