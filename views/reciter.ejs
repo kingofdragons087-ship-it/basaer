@@ -53,19 +53,18 @@
     }
     .basaer-reciter-cover {
       position: relative;
-      isolation: isolate;
-      overflow: hidden;
       width: min(1100px, 100%);
-      max-width: 1100px;
-      margin: 0 auto 26px;
-      padding: 40px 20px;
+      margin: 0 auto 20px;
+      padding: 20px 20px 12px;
       box-sizing: border-box;
-      border-radius: 24px;
-      background: rgba(8, 11, 16, .72);
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
       color: #fff;
       text-align: center;
     }
-    .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.9;margin:0 0 22px;color:inherit}
+    .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.7;margin:0 0 16px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45)}
     .basaer-reciter-cover .reciter-profile {margin:0;padding:0;background:transparent;border:0;box-shadow:none}
     .basaer-reciter-cover .reciter-profile-info h1,
     .basaer-reciter-cover .reciter-profile-info p,
@@ -88,7 +87,7 @@
     .recording-card.is-playing .basaer-wave span:nth-child(3n + 1) {animation-delay:-.5s}
     @keyframes basaerWave {from{height:5px}to{height:32px}}
     .basaer-video-number {display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:9px;background:#175c91;color:#fff;margin:12px 0 0;font-weight:800}
-    @media(max-width:600px){.basaer-reciter-cover{padding:23px 12px;border-radius:18px}.basaer-tab{flex:1;padding:11px 8px;font-size:13px}}
+    @media(max-width:600px){.basaer-reciter-cover{padding:14px 12px 8px;margin-bottom:16px}.basaer-bismillah{margin-bottom:12px}.basaer-tab{flex:1;padding:11px 8px;font-size:13px}}
     @media(prefers-reduced-motion:reduce){.recording-card.is-playing .basaer-wave span{animation:none;height:12px}}
   </style>
   <!-- BASAER_RECITER_TABS_V1 -->
