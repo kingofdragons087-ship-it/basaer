@@ -32,6 +32,25 @@
   </header>
 
   <style>
+    .reciter-page {
+      position: relative;
+      isolation: isolate;
+      background: #080b10;
+      min-height: 100vh;
+    }
+    .reciter-page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(5, 9, 16, .76), rgba(5, 9, 16, .88)),
+        var(--reciter-cover);
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
     .basaer-reciter-cover {
       position: relative;
       isolation: isolate;
@@ -42,7 +61,7 @@
       padding: 40px 20px;
       box-sizing: border-box;
       border-radius: 0;
-      background: linear-gradient(135deg, #102d50, #285f85);
+      background: transparent;
       color: #fff;
       text-align: center;
     }
@@ -84,8 +103,8 @@
     @media(prefers-reduced-motion:reduce){.recording-card.is-playing .basaer-wave span{animation:none;height:12px}}
   </style>
   <!-- BASAER_RECITER_TABS_V1 -->
-  <main class="reciter-page">
-    <section class="basaer-reciter-cover"<% if (reciter.background_url) { %> style="--reciter-cover: url(&quot;<%= reciter.background_url %>&quot;);"<% } %>>
+  <main class="reciter-page"<% if (reciter.background_url) { %> style="--reciter-cover: url(&quot;<%= reciter.background_url %>&quot;);"<% } %>>
+    <section class="basaer-reciter-cover">
       <p class="basaer-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
       <section class="reciter-profile">
       <div class="reciter-profile-image">
