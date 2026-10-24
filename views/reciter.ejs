@@ -32,6 +32,69 @@
   </header>
 
   <style>
+
+    /* إصلاح وضوح أزرار الهيدر في صفحة القارئ فقط */
+    header .header-actions {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    header .header-actions .theme-toggle {
+      display: grid !important;
+      place-items: center;
+      flex: 0 0 44px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.48) !important;
+      border-radius: 13px;
+      background: rgba(12,20,32,.94) !important;
+      color: #fff !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    header .header-actions .theme-toggle #themeIcon {
+      display: block;
+      color: #fff !important;
+      line-height: 1;
+    }
+    header .header-actions a.header-button[href="/"] {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.48) !important;
+      border-radius: 13px;
+      background: rgba(12,20,32,.94) !important;
+      color: #fff !important;
+      white-space: nowrap;
+      opacity: 1 !important;
+      visibility: visible !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+    }
+    header .header-actions .theme-toggle:focus-visible,
+    header .header-actions a.header-button[href="/"]:focus-visible {
+      outline: 3px solid #8dcaff;
+      outline-offset: 3px;
+    }
+    @media(max-width:600px) {
+      header .header-actions { gap: 7px; }
+      header .header-actions .theme-toggle {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+      }
+      header .header-actions a.header-button[href="/"] {
+        min-height: 40px;
+        padding: 9px 10px;
+        font-size: 12px;
+      }
+    }
     .reciter-page {
       position: relative;
       isolation: isolate;
