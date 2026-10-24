@@ -47,9 +47,9 @@
       background-image:
         linear-gradient(rgba(5, 9, 16, .76), rgba(5, 9, 16, .88)),
         var(--reciter-cover);
-      background-size: 100% auto;
+      background-size: contain;
       background-position: center top;
-      background-repeat: repeat-y;
+      background-repeat: no-repeat;
     }
     .basaer-reciter-cover {
       position: relative;
@@ -65,17 +65,6 @@
       color: #fff;
       text-align: center;
     }
-    .basaer-reciter-cover::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background-image: var(--reciter-cover);
-      background-size: cover;
-      background-position: center;
-      opacity: .4;
-    }
-
     .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.9;margin:0 0 22px;color:inherit}
     .basaer-reciter-cover .reciter-profile {margin:0;padding:0;background:transparent;border:0;box-shadow:none}
     .basaer-reciter-cover .reciter-profile-info h1,
