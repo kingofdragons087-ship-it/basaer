@@ -40,7 +40,7 @@
     }
     .reciter-page::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
@@ -55,12 +55,12 @@
       position: relative;
       isolation: isolate;
       overflow: hidden;
-      width: 100vw;
-      max-width: none;
-      margin: 0 calc(50% - 50vw) 26px;
+      width: min(1100px, 100%);
+      max-width: 1100px;
+      margin: 0 auto 26px;
       padding: 40px 20px;
       box-sizing: border-box;
-      border-radius: 0;
+      border-radius: 24px;
       background: transparent;
       color: #fff;
       text-align: center;
