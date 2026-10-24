@@ -33,18 +33,30 @@
 
   <style>
     .basaer-reciter-cover {
-      position:relative; isolation:isolate; overflow:hidden;
-      border-radius:24px; margin:22px auto 26px;
-      padding:30px 20px; width:min(1100px,94%);
-      background:linear-gradient(135deg,#102d50,#285f85);
-      color:#fff; text-align:center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      width: 100vw;
+      max-width: none;
+      margin: 0 calc(50% - 50vw) 26px;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      border-radius: 0;
+      background: linear-gradient(135deg, #102d50, #285f85);
+      color: #fff;
+      text-align: center;
     }
     .basaer-reciter-cover::before {
-      content:""; position:absolute; inset:0; z-index:-1;
-      background-image:var(--reciter-cover);
-      background-size:cover; background-position:center;
-      opacity:.28;
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: var(--reciter-cover);
+      background-size: cover;
+      background-position: center;
+      opacity: .4;
     }
+
     .basaer-bismillah {font-size:clamp(22px,4vw,32px);line-height:1.9;margin:0 0 22px;color:inherit}
     .basaer-reciter-cover .reciter-profile {margin:0;padding:0;background:transparent;border:0;box-shadow:none}
     .basaer-reciter-cover .reciter-profile-info h1,
