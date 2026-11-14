@@ -65,8 +65,7 @@
       <form action="/owner/content/reciters" method="post" enctype="multipart/form-data">
         <label for="rname">اسم القارئ</label>
         <input id="rname" name="name" required maxlength="180" placeholder="مثال: عبد الباسط عبد الصمد">
-        <label for="rslug">معرّف الرابط بالإنجليزية</label>
-        <input id="rslug" name="slug" required pattern="[a-zA-Z0-9-]+" maxlength="180" placeholder="abdul-basit-abdus-samad">
+        <p class="help">سيُنشأ رابط صفحة القارئ تلقائيًا من اسمه عند الحفظ.</p>
         <label for="bio">نبذة عن القارئ</label>
         <textarea id="bio" name="biography" maxlength="3000"></textarea>
         <label for="rimage">صورة القارئ (JPG أو PNG أو WebP، حتى 10 ميغابايت)</label>
