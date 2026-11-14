@@ -330,6 +330,46 @@ function setupAuth(app, db) {
   const safeId = (value) =>
     /^\d+$/.test(String(value || "")) ? Number(value) : null;
 
+  // إنشاء معرّف الرابط تلقائيًا من اسم القارئ، دون المساس بمعرّفات القراء الحاليين.
+  const arabicSlugMap = {
+    "ا":"a","أ":"a","إ":"i","آ":"a","ء":"","ؤ":"w","ئ":"y",
+    "ب":"b","ت":"t","ث":"th","ج":"j","ح":"h","خ":"kh",
+    "د":"d","ذ":"dh","ر":"r","ز":"z","س":"s","ش":"sh",
+    "ص":"s","ض":"d","ط":"t","ظ":"z","ع":"a","غ":"gh",
+    "ف":"f","ق":"q","ك":"k","ل":"l","م":"m","ن":"n",
+    "ه":"h","ة":"h","و":"w","ى":"a","ي":"y"
+  };
+
+  function makeReciterSlug(name) {
+    const transliterated = Array.from(String(name || "").toLowerCase())
+      .map(char => arabicSlugMap[char] ?? char)
+      .join("")
+      .normalize("NFD")
+      .replace(/[\\u0300-\\u036f]/g, "");
+    return transliterated
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 160)
+      .replace(/-+$/g, "") || "reciter";
+  }
+
+  async function createUniqueReciterSlug(name) {
+    const base = makeReciterSlug(name);
+    let candidate = base;
+    let suffix = 2;
+
+    while (true) {
+      const existing = await db.query(
+        "SELECT 1 FROM reciters WHERE slug = $1 LIMIT 1",
+        [candidate]
+      );
+      if (existing.rowCount === 0) return candidate;
+
+      const ending = "-" + suffix++;
+      candidate = base.slice(0, 160 - ending.length).replace(/-+$/g, "") + ending;
+    }
+  }
+
   async function uploadImageToPostFile(file) {
     if (!file) return null;
 
@@ -397,12 +437,11 @@ function setupAuth(app, db) {
     async (req, res) => {
       try {
         const name = cleanText(req.body.name, 180);
-        const slugInput = cleanText(req.body.slug, 180).toLowerCase();
-        const slug = slugInput.replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
         const biography = cleanText(req.body.biography, 3000);
-        if (!name || !slug) {
-          return res.redirect("/owner/content?error=" + encodeURIComponent("أدخل اسم القارئ ومعرّفًا إنجليزيًا للرابط."));
+        if (!name) {
+          return res.redirect("/owner/content?error=" + encodeURIComponent("أدخل اسم القارئ."));
         }
+        const slug = await createUniqueReciterSlug(name);
 
         await db.query(
           "ALTER TABLE reciters ADD COLUMN IF NOT EXISTS background_url TEXT"
