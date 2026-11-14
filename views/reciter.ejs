@@ -20,7 +20,7 @@
     <nav class="navigation">
       <a href="/">الرئيسية</a>
       <a href="#recordings">التلاوات</a>
-      <% if (videos.length) { %><a href="#videos">الفيديوهات</a><% } %>
+
     </nav>
     <div class="header-actions">
       <button class="theme-toggle" id="themeToggle" type="button"
@@ -189,26 +189,19 @@
         <% } %>
         <div class="reciter-profile-stats">
           <span><strong><%= recordings.length %></strong> تلاوة</span>
-          <span><strong><%= videos.length %></strong> فيديو</span>
+
         </div>
       </div>
       </section>
     </section>
 
-    <div class="basaer-tabs" role="tablist" aria-label="نوع محتوى القارئ">
-      <button class="basaer-tab" id="basaer-audio-tab" type="button" role="tab"
-        aria-controls="basaer-audio-panel" aria-selected="true">تحميل أو استمع للصوت</button>
-      <button class="basaer-tab" id="basaer-video-tab" type="button" role="tab"
-        aria-controls="basaer-video-panel" aria-selected="false">تحميل أو مشاهدة فيديو</button>
-    </div>
 
-    <div id="basaer-audio-panel" class="basaer-tab-panel" role="tabpanel" aria-labelledby="basaer-audio-tab">
     <section class="reciter-content-section" id="recordings">
       <div class="section-heading">
         <div>
           <span class="section-kicker">استمع بقلبك</span>
           <h2>التسجيلات الصوتية</h2>
-        </div>
+    
         <span class="coming-badge"><span></span> <%= recordings.length %> تلاوة</span>
       </div>
 
@@ -257,41 +250,8 @@
     </section>
 
     </div>
-    <div id="basaer-video-panel" class="basaer-tab-panel" role="tabpanel" aria-labelledby="basaer-video-tab" hidden>
-    <% if (videos.length) { %>
-      <section class="reciter-content-section" id="videos">
-        <div class="section-heading">
-          <div>
-            <span class="section-kicker">شاهد واستمع</span>
-            <h2>فيديوهات القارئ</h2>
-          </div>
-          <span class="coming-badge"><span></span> <%= videos.length %> فيديو</span>
-        </div>
-        <div class="reciter-videos-grid">
-          <% videos.forEach((video) => { %>
-            <article class="reciter-video-card">
-              <span class="basaer-video-number"><%= videos.indexOf(video) + 1 %></span>
-              <div class="reciter-video-frame">
-                <iframe
-                  src="https://www.youtube-nocookie.com/embed/<%= video.youtube_video_id %>"
-                  title="<%= video.title || ('تلاوة للقارئ ' + reciter.name) %>"
-                  loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen></iframe>
-              </div>
-              <% if (video.title) { %>
-                <h3><%= video.title %></h3>
-              <% } %>
-            </article>
-          <% }) %>
-        </div>
-      </section>
-    <% } %>
-    </div>
   </main>
 
-  <script src="/reciter-tabs.js" defer></script>
 
   <footer class="footer">
     <a class="brand footer-brand" href="/">
