@@ -29,9 +29,24 @@ require("./auth")(app, db);
 
 app.get("/", async (req, res) => {
   let reciters = [];
+  let apps = [];
 
   if (db.pool) {
     try {
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS platform_apps (
+          id BIGSERIAL PRIMARY KEY,
+          name VARCHAR(180) NOT NULL,
+          image_url TEXT NOT NULL,
+          download_url TEXT NOT NULL,
+          is_published BOOLEAN NOT NULL DEFAULT FALSE,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      const appsResult = await db.query(
+        "SELECT id, name, image_url, download_url FROM platform_apps WHERE is_published = TRUE ORDER BY id DESC"
+      );
+      apps = appsResult.rows;
       const result = await db.query(`
         SELECT
           r.id,
@@ -45,12 +60,6 @@ app.get("/", async (req, res) => {
             WHERE a.reciter_id = r.id
               AND a.is_published = TRUE
           ) AS recordings_count,
-          (
-            SELECT COUNT(*)::int
-            FROM reciter_videos v
-            WHERE v.reciter_id = r.id
-              AND v.is_published = TRUE
-          ) AS videos_count
         FROM reciters r
         WHERE r.is_published = TRUE
         ORDER BY r.sort_order ASC, r.id DESC
@@ -65,7 +74,7 @@ app.get("/", async (req, res) => {
     }
   }
 
-  res.render("index", { reciters });
+  res.render("index", { reciters, apps });
 });
 
 app.get("/reciters/:slug", async (req, res) => {
@@ -94,23 +103,14 @@ app.get("/reciters/:slug", async (req, res) => {
 
     const reciter = reciterResult.rows[0];
 
-    const [recordingsResult, videosResult] = await Promise.all([
-      db.query(
-        `SELECT id, surah_number, surah_name, audio_url,
-                download_enabled, duration_seconds
-         FROM recordings
-         WHERE reciter_id = $1 AND is_published = TRUE
-         ORDER BY sort_order ASC, surah_number ASC, id ASC`,
-        [reciter.id]
-      ),
-      db.query(
-        `SELECT id, title, youtube_video_id
-         FROM reciter_videos
-         WHERE reciter_id = $1 AND is_published = TRUE
-         ORDER BY sort_order ASC, id ASC`,
-        [reciter.id]
-      )
-    ]);
+    const recordingsResult = await db.query(
+      `SELECT id, surah_number, surah_name, audio_url,
+              download_enabled, duration_seconds
+       FROM recordings
+       WHERE reciter_id = $1 AND is_published = TRUE
+       ORDER BY sort_order ASC, surah_number ASC, id ASC`,
+      [reciter.id]
+    );
 
     const recordings = recordingsResult.rows.filter((item) => {
       try {
@@ -121,14 +121,9 @@ app.get("/reciters/:slug", async (req, res) => {
       }
     });
 
-    const videos = videosResult.rows.filter((item) =>
-      /^[A-Za-z0-9_-]{11}$/.test(item.youtube_video_id || "")
-    );
-
     return res.render("reciter", {
       reciter,
-      recordings,
-      videos
+      recordings
     });
   } catch (error) {
     console.error(
