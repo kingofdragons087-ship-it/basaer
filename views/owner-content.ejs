@@ -54,7 +54,7 @@
 <main>
   <section class="intro">
     <h2>مركز إدارة المكتبة</h2>
-    <div class="sub">إضافة ملفات القراء والصور والتلاوات الصوتية وروابط YouTube. العناصر الجديدة لا تظهر للزوار إلا عند تفعيل النشر.</div>
+    <div class="sub">إدارة القراء والتلاوات الصوتية وتطبيقات المنصة. العناصر الجديدة لا تظهر للزوار إلا عند تفعيل النشر.</div>
   </section>
   <% if (message) { %><div class="msg"><%= message %></div><% } %>
   <% if (error) { %><div class="msg err"><%= error %></div><% } %>
@@ -102,24 +102,20 @@
       <p class="help">استخدم رابط ملف صوتي مباشرًا يدعم تشغيل المتصفح، وليس رابط صفحة ويب عادية.</p>
     </section>
 
+
     <section class="panel">
-      <h3>إضافة فيديو YouTube</h3>
-      <form action="/owner/content/videos" method="post">
-        <label for="vreciter">القارئ</label>
-        <select id="vreciter" name="reciter_id" required>
-          <option value="">اختر القارئ</option>
-          <% reciters.forEach(r => { %><option value="<%= r.id %>"><%= r.name %></option><% }) %>
-        </select>
-        <label for="youtube">رابط فيديو YouTube</label>
-        <input id="youtube" type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=..." dir="ltr">
-        <label for="vtitle">عنوان الفيديو (اختياري)</label>
-        <input id="vtitle" name="title" maxlength="250" placeholder="عنوان الفيديو">
-        <label for="vorder">ترتيب الفيديو</label>
-        <input id="vorder" type="number" name="sort_order" value="0">
-        <label class="check"><input type="checkbox" name="is_published"> نشر الفيديو</label>
-        <button class="submit" type="submit">إضافة الفيديو</button>
+      <h3>إضافة تطبيق للمنصة</h3>
+      <form action="/owner/content/apps" method="post" enctype="multipart/form-data">
+        <label for="appname">اسم التطبيق</label>
+        <input id="appname" name="name" required maxlength="180" placeholder="مثال: البصائر للقرآن الكريم">
+        <label for="appimage">صورة التطبيق (JPG أو PNG أو WebP، حتى 10 ميغابايت)</label>
+        <input id="appimage" type="file" name="image" accept="image/jpeg,image/png,image/webp" required>
+        <label for="appdownload">رابط التحميل المباشر (HTTPS)</label>
+        <input id="appdownload" type="url" name="download_url" required placeholder="https://..." dir="ltr">
+        <label class="check"><input type="checkbox" name="is_published"> إظهار التطبيق في الموقع</label>
+        <button class="submit" type="submit">إضافة التطبيق</button>
       </form>
-      <p class="help">تُعرض معاينة الفيديو باستخدام معرّفه. جلب العنوان تلقائيًا من YouTube يحتاج تكاملًا إضافيًا؛ العنوان هنا اختياري.</p>
+      <p class="help">ارفع صورة التطبيق، وأدخل رابط ملف APK أو رابط تنزيل مباشر موثوق. لن يظهر التطبيق للزوار إلا بعد تفعيل النشر.</p>
     </section>
   </div>
 
@@ -148,15 +144,17 @@
       </tbody></table></div>
     </section>
 
+
     <section class="panel">
-      <h3>فيديوهات YouTube — <%= videos.length %></h3>
-      <div class="table-wrap"><table><thead><tr><th>القارئ</th><th>العنوان</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
-      <% videos.forEach(v => { %><tr>
-        <td><%= v.reciter_name %></td><td><%= v.title || "فيديو YouTube" %></td>
-        <td><span class="badge"><%= v.is_published ? "منشور" : "مسودة" %></span></td>
-        <td><form action="/owner/content/videos/<%= v.id %>/delete" method="post" onsubmit="return confirm('هل تريد حذف هذا الفيديو؟')"><button class="delete" type="submit">حذف</button></form></td>
+      <h3>تطبيقات المنصة — <%= apps.length %></h3>
+      <div class="table-wrap"><table><thead><tr><th>الصورة</th><th>اسم التطبيق</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+      <% apps.forEach(app => { %><tr>
+        <td><img src="<%= app.image_url %>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:10px"></td>
+        <td><%= app.name %></td>
+        <td><span class="badge"><%= app.is_published ? "ظاهر بالموقع" : "مسودة" %></span></td>
+        <td><form action="/owner/content/apps/<%= app.id %>/delete" method="post" onsubmit="return confirm('هل تريد حذف هذا التطبيق من القائمة؟')"><button class="delete" type="submit">حذف</button></form></td>
       </tr><% }) %>
-      <% if (!videos.length) { %><tr><td colspan="4">لا توجد فيديوهات بعد.</td></tr><% } %>
+      <% if (!apps.length) { %><tr><td colspan="4">لم تتم إضافة تطبيقات بعد.</td></tr><% } %>
       </tbody></table></div>
     </section>
   </div>
