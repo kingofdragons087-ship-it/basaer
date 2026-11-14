@@ -260,7 +260,6 @@ function setupAuth(app, db) {
       publishedReciters: null,
       recordings: null,
       publishedRecordings: null,
-      videos: null,
       reports: null,
       unresolvedReports: null
     };
@@ -275,7 +274,6 @@ function setupAuth(app, db) {
           (SELECT COUNT(*)::int FROM reciters WHERE is_published = TRUE) AS published_reciters,
           (SELECT COUNT(*)::int FROM recordings) AS recordings,
           (SELECT COUNT(*)::int FROM recordings WHERE is_published = TRUE) AS published_recordings,
-          (SELECT COUNT(*)::int FROM reciter_videos) AS videos,
           (SELECT COUNT(*)::int FROM reports) AS reports,
           (SELECT COUNT(*)::int FROM reports WHERE status IS DISTINCT FROM 'resolved') AS unresolved_reports
       `);
@@ -287,7 +285,6 @@ function setupAuth(app, db) {
       stats.publishedReciters = row.published_reciters;
       stats.recordings = row.recordings;
       stats.publishedRecordings = row.published_recordings;
-      stats.videos = row.videos;
       stats.reports = row.reports;
       stats.unresolvedReports = row.unresolved_reports;
     } catch (error) {
@@ -540,80 +537,11 @@ function setupAuth(app, db) {
     }
   });
 
-  app.post("/owner/content/videos", ownerOnly, async (req, res) => {
-    try {
-      const reciterId = safeId(req.body.reciter_id);
-      const youtubeUrl = new URL(cleanText(req.body.youtube_url, 2000));
-      const hosts = new Set(["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtube-nocookie.com"]);
-      if (!reciterId || !hosts.has(youtubeUrl.hostname)) throw new Error("INVALID_YOUTUBE_URL");
-
-      let videoId = "";
-      if (youtubeUrl.hostname === "youtu.be") {
-        videoId = youtubeUrl.pathname.split("/").filter(Boolean)[0] || "";
-      } else if (youtubeUrl.pathname === "/watch") {
-        videoId = youtubeUrl.searchParams.get("v") || "";
-      } else {
-        const parts = youtubeUrl.pathname.split("/").filter(Boolean);
-        if (["embed", "shorts", "live"].includes(parts[0])) videoId = parts[1] || "";
-      }
-
-      if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) throw new Error("INVALID_YOUTUBE_URL");
-
-      let title = cleanText(req.body.title, 250);
-
-      // جلب عنوان الفيديو تلقائيًا إذا ترك المالك خانة العنوان فارغة.
-      if (!title) {
-        try {
-          const oembedUrl =
-            "https://www.youtube.com/oembed?format=json&url=" +
-            encodeURIComponent("https://www.youtube.com/watch?v=" + videoId);
-
-          const response = await fetch(oembedUrl, {
-            signal: AbortSignal.timeout(7000)
-          });
-
-          if (response.ok) {
-            const metadata = await response.json();
-            title = cleanText(metadata.title, 250);
-          }
-        } catch (error) {
-          console.warn("YouTube title lookup failed:", error.message);
-        }
-      }
-
-      await db.query(
-        `INSERT INTO reciter_videos
-           (reciter_id, title, youtube_url, youtube_video_id, is_published, sort_order)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [reciterId, title || "فيديو YouTube",
-         `https://www.youtube.com/watch?v=${videoId}`,
-         videoId,
-         req.body.is_published === "on",
-         Number(req.body.sort_order) || 0]
-      );
-      res.redirect("/owner/content?message=" + encodeURIComponent("تمت إضافة الفيديو ومعاينته عبر YouTube."));
-    } catch (error) {
-      console.error("Create video failed:", {
-        message: error.message,
-        code: error.code,
-        detail: error.detail,
-        constraint: error.constraint,
-        table: error.table,
-        column: error.column
-      });
-      const message = error.message === "INVALID_YOUTUBE_URL"
-        ? "رابط YouTube غير صالح."
-        : "تعذرت إضافة الفيديو. راجع سجلات التطبيق لمعرفة السبب.";
-      res.redirect("/owner/content?error=" + encodeURIComponent(message));
-    }
-  });
-
   app.post("/owner/content/:kind/:id/delete", ownerOnly, async (req, res) => {
     const id = safeId(req.params.id);
     const tables = {
       reciters: "reciters",
       recordings: "recordings",
-      videos: "reciter_videos",
       apps: "platform_apps"
     };
     const table = tables[req.params.kind];
