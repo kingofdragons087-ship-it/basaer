@@ -166,42 +166,39 @@
     @media(max-width:600px){.basaer-reciter-cover{width:calc(100% - 24px);padding:22px 15px;margin:20px auto 26px;border-radius:22px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.basaer-bismillah{margin-bottom:20px;padding-bottom:14px}.basaer-tabs{width:calc(100% - 24px);margin-bottom:26px;gap:8px}.basaer-tab{flex:1;padding:12px 8px;font-size:13px}}
     @media(prefers-reduced-motion:reduce){.recording-card.is-playing .basaer-wave span{animation:none;height:12px}}
   </style>
-  <!-- BASAER_RECITER_TABS_V1 -->
+  <!-- BASAER_RECITER_AUDIO_ONLY_V2 -->
   <main class="reciter-page"<% if (reciter.background_url) { %> style="--reciter-cover: url(&quot;<%= reciter.background_url %>&quot;);"<% } %>>
     <section class="basaer-reciter-cover">
       <p class="basaer-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
       <section class="reciter-profile">
-      <div class="reciter-profile-image">
-        <% if (reciter.image_url) { %>
-          <img src="<%= reciter.image_url %>"
-            alt="صورة القارئ <%= reciter.name %>">
-        <% } else { %>
-          <span aria-hidden="true">♫</span>
-        <% } %>
-      </div>
-      <div class="reciter-profile-info">
-        <span class="section-kicker">من مكتبة البصائر</span>
-        <h1><%= reciter.name %></h1>
-        <% if (reciter.biography) { %>
-          <p><%= reciter.biography %></p>
-        <% } else { %>
-          <p>استمع إلى التلاوات الصوتية واختر ما تحب الاستماع إليه.</p>
-        <% } %>
-        <div class="reciter-profile-stats">
-          <span><strong><%= recordings.length %></strong> تلاوة</span>
-
+        <div class="reciter-profile-image">
+          <% if (reciter.image_url) { %>
+            <img src="<%= reciter.image_url %>" alt="صورة القارئ <%= reciter.name %>">
+          <% } else { %>
+            <span aria-hidden="true">♫</span>
+          <% } %>
         </div>
-      </div>
+        <div class="reciter-profile-info">
+          <span class="section-kicker">من مكتبة البصائر</span>
+          <h1><%= reciter.name %></h1>
+          <% if (reciter.biography) { %>
+            <p><%= reciter.biography %></p>
+          <% } else { %>
+            <p>استمع إلى التلاوات الصوتية واختر ما تحب الاستماع إليه.</p>
+          <% } %>
+          <div class="reciter-profile-stats">
+            <span><strong><%= recordings.length %></strong> تلاوة</span>
+          </div>
+        </div>
       </section>
     </section>
-
 
     <section class="reciter-content-section" id="recordings">
       <div class="section-heading">
         <div>
           <span class="section-kicker">استمع بقلبك</span>
           <h2>التسجيلات الصوتية</h2>
-    
+        </div>
         <span class="coming-badge"><span></span> <%= recordings.length %> تلاوة</span>
       </div>
 
@@ -229,11 +226,7 @@
                 متصفحك لا يدعم تشغيل الصوت.
               </audio>
               <% if (recording.download_enabled) { %>
-                <a class="recording-download"
-                   href="<%= recording.audio_url %>"
-                   download
-                   target="_blank"
-                   rel="noopener noreferrer">
+                <a class="recording-download" href="<%= recording.audio_url %>" download target="_blank" rel="noopener noreferrer">
                   <span aria-hidden="true">↓</span> تنزيل التسجيل
                 </a>
               <% } %>
@@ -248,10 +241,7 @@
         </div>
       <% } %>
     </section>
-
-    </div>
   </main>
-
 
   <footer class="footer">
     <a class="brand footer-brand" href="/">
