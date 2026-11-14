@@ -999,3 +999,20 @@ html[data-theme="dark"] .account-modal-logout {
   from { background-position: 0% 50%; }
   to   { background-position: 100% 50%; }
 }
+
+
+/* BASAER PLATFORM APP CARDS + YOUTUBE SUBSCRIBE */
+.basaer-youtube-banner{width:min(1100px,90%);margin:14px auto 0;padding:12px 18px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;border:1px solid #e2eaf6;border-radius:14px;background:linear-gradient(100deg,#fff,#f2f7ff);color:#29415f;font-size:13px;font-weight:700}
+.basaer-youtube-banner a{padding:7px 13px;border-radius:9px;background:#d92332;color:#fff;text-decoration:none;direction:ltr}
+.platform-apps-section{width:min(1100px,88%);margin:55px auto 0}
+.platform-apps-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.platform-app-card{display:flex;align-items:center;gap:15px;min-width:0;padding:16px;border:1px solid #e2eaf6;border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(30,65,110,.05)}
+.platform-app-card>img{width:76px;height:76px;flex:0 0 76px;object-fit:cover;border-radius:17px;background:#edf2f8}
+.platform-app-info{min-width:0;flex:1}
+.platform-app-info h3{margin:0 0 6px;color:#203653;font-size:15px;overflow-wrap:anywhere}
+.platform-app-info p{margin:0;color:#8190a5;font-size:11px;line-height:1.7}
+.platform-app-download{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 13px;border-radius:11px;background:linear-gradient(120deg,#286fc0,#174c91);color:#fff;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap}
+html[data-theme="dark"] .basaer-youtube-banner,html[data-theme="dark"] .platform-app-card{background:#111824;border-color:#293448;color:#eaf1fc}
+html[data-theme="dark"] .platform-app-info h3{color:#edf2ff}
+html[data-theme="dark"] .platform-app-info p{color:#a0aec3}
+@media(max-width:680px){.platform-apps-section{width:92%;margin-top:40px}.platform-apps-grid{grid-template-columns:1fr}.platform-app-card{gap:11px;padding:12px}.platform-app-card>img{width:62px;height:62px;flex-basis:62px}.platform-app-info h3{font-size:13px}.platform-app-download{padding:9px 10px;font-size:11px}.basaer-youtube-banner{width:92%;font-size:12px}}
