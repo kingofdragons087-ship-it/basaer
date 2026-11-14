@@ -345,7 +345,7 @@ function setupAuth(app, db) {
       .map(char => arabicSlugMap[char] ?? char)
       .join("")
       .normalize("NFD")
-      .replace(/[\\u0300-\\u036f]/g, "");
+      .replace(/[\u0300-\u036f]/g, "");
     return transliterated
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
