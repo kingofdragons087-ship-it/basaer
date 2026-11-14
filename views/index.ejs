@@ -51,6 +51,8 @@
     </div>
   </header>
 
+  <div class="basaer-youtube-banner"><span>تابعونا واشتركوا في قناتنا على YouTube</span><a href="https://www.youtube.com/@basaer5o7l-t6z" target="_blank" rel="noopener noreferrer">@basaer5o7l-t6z</a></div>
+
   <main>
     <section class="hero" id="home">
       <div class="hero-content">
@@ -133,7 +135,7 @@
                 <p>
                   <%= reciter.recordings_count %> تلاوة
                   <span aria-hidden="true">·</span>
-                  <%= reciter.videos_count %> فيديو
+                  
                 </p>
                 <span class="reciter-card-link">استكشف التلاوات <span aria-hidden="true">←</span></span>
               </div>
@@ -147,6 +149,27 @@
           <p>نعمل على تجهيز المكتبة وإضافة القراء والتسجيلات الصوتية.</p>
           <span class="empty-footnote">لن نعرض تسجيلات وهمية؛ ستظهر المحتويات عند إضافتها فعليًا.</span>
         </div>
+      <% } %>
+    </section>
+
+
+    <section class="platform-apps-section" id="apps">
+      <div class="section-heading">
+        <div><span class="section-kicker">تطبيقاتنا الرسمية</span><h2>تحميل تطبيقات منصتنا القرآنية</h2></div>
+        <span class="coming-badge"><span></span> <%= apps.length %> تطبيق</span>
+      </div>
+      <% if (apps.length) { %>
+        <div class="platform-apps-grid">
+          <% apps.forEach((app) => { %>
+            <article class="platform-app-card">
+              <img src="<%= app.image_url %>" alt="أيقونة تطبيق <%= app.name %>" loading="lazy">
+              <div class="platform-app-info"><h3><%= app.name %></h3><p>تطبيق من منصّة البصائر القرآنية</p></div>
+              <a class="platform-app-download" href="<%= app.download_url %>" target="_blank" rel="noopener noreferrer">تحميل التطبيق</a>
+            </article>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="library-empty"><h3>تطبيقات البصائر قريبًا</h3><p>سيتم عرض التطبيقات هنا فور إضافتها من لوحة الإدارة.</p></div>
       <% } %>
     </section>
 
