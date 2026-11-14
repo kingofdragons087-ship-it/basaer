@@ -403,7 +403,17 @@ function setupAuth(app, db) {
 
   app.get("/owner/content", ownerOnly, async (req, res) => {
     try {
-      const [reciters, recordings, videos] = await Promise.all([
+      await db.query(`
+        CREATE TABLE IF NOT EXISTS platform_apps (
+          id BIGSERIAL PRIMARY KEY,
+          name VARCHAR(180) NOT NULL,
+          image_url TEXT NOT NULL,
+          download_url TEXT NOT NULL,
+          is_published BOOLEAN NOT NULL DEFAULT FALSE,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      const [reciters, recordings, apps] = await Promise.all([
         db.query("SELECT id, name, slug, image_url, is_published FROM reciters ORDER BY sort_order, id DESC"),
         db.query(`
           SELECT a.id, a.reciter_id, a.surah_number, a.surah_name,
@@ -411,24 +421,44 @@ function setupAuth(app, db) {
           FROM recordings a JOIN reciters r ON r.id = a.reciter_id
           ORDER BY a.sort_order, a.surah_number, a.id DESC
         `),
-        db.query(`
-          SELECT v.id, v.reciter_id, v.title, v.youtube_video_id,
-                 v.is_published, r.name AS reciter_name
-          FROM reciter_videos v JOIN reciters r ON r.id = v.reciter_id
-          ORDER BY v.sort_order, v.id DESC
-        `)
+        db.query("SELECT id, name, image_url, download_url, is_published FROM platform_apps ORDER BY id DESC")
       ]);
       res.render("owner-content", {
         user: req.user,
         reciters: reciters.rows,
         recordings: recordings.rows,
-        videos: videos.rows,
+        apps: apps.rows,
         message: cleanText(req.query.message, 180),
         error: cleanText(req.query.error, 180)
       });
     } catch (error) {
       console.error("Owner content page failed:", error.code || "DATABASE_ERROR");
       res.status(500).send("تعذر تحميل إدارة المحتوى. تحقق من مخطط قاعدة البيانات.");
+    }
+  });
+
+
+  app.post("/owner/content/apps", ownerOnly, contentUpload.single("image"), async (req, res) => {
+    try {
+      const name = cleanText(req.body.name, 180);
+      const downloadUrl = cleanText(req.body.download_url, 2000);
+      let parsed;
+      try { parsed = new URL(downloadUrl); } catch { parsed = null; }
+      if (!name || !parsed || parsed.protocol !== "https:" || !req.file) {
+        return res.redirect("/owner/content?error=" + encodeURIComponent("أدخل اسم التطبيق ورابط تحميل HTTPS وارفع صورة التطبيق."));
+      }
+      const imageUrl = await uploadImageToPostFile(req.file);
+      await db.query(
+        "INSERT INTO platform_apps (name, image_url, download_url, is_published) VALUES ($1, $2, $3, $4)",
+        [name, imageUrl, parsed.href, req.body.is_published === "on"]
+      );
+      res.redirect("/owner/content?message=" + encodeURIComponent("تمت إضافة التطبيق إلى المنصة."));
+    } catch (error) {
+      console.error("Create platform app failed:", error.code || error.message || "ERROR");
+      const message = error.message === "POSTFILE_API_KEY_MISSING"
+        ? "مفتاح PostFile غير مضبوط على الخادم."
+        : "تعذرت إضافة التطبيق. تحقق من الصورة ورابط التحميل.";
+      res.redirect("/owner/content?error=" + encodeURIComponent(message));
     }
   });
 
@@ -583,7 +613,8 @@ function setupAuth(app, db) {
     const tables = {
       reciters: "reciters",
       recordings: "recordings",
-      videos: "reciter_videos"
+      videos: "reciter_videos",
+      apps: "platform_apps"
     };
     const table = tables[req.params.kind];
     if (!id || !table) return res.status(400).send("طلب غير صالح.");
