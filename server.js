@@ -59,7 +59,7 @@ app.get("/", async (req, res) => {
             FROM recordings a
             WHERE a.reciter_id = r.id
               AND a.is_published = TRUE
-          ) AS recordings_count,
+          ) AS recordings_count
         FROM reciters r
         WHERE r.is_published = TRUE
         ORDER BY r.sort_order ASC, r.id DESC
